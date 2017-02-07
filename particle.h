@@ -23,7 +23,7 @@ public:
 
     void integrate(double time);
 
-private:
+protected:
     double mass;
     Vector3 position;
     Vector3 velocity;
