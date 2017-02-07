@@ -8,9 +8,9 @@
 #include <GL/glut.h>
 
 class Color {
+public:
     static const Color background;
     static const Color ball;
-public:
     GLfloat red;
     GLfloat green;
     GLfloat blue;
