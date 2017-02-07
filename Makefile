@@ -6,13 +6,13 @@
 CC = g++
 
 # Compiler flags:
-CFLAGS = -lglut -lGLU -lGL -lm -ljpeg -Wall -g
+CFLAGS = -Wall -g
 
 # Files to compile
-CFILES = main.cpp vector3.cpp
+CFILES = main.cpp vector3.cpp particle.cpp
 
 # Files' headers
-HFILES = vector3.h
+HFILES = vector3.h particle.h
 
 # The build target executable:
 TARGET = pang_game
