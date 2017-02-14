@@ -9,10 +9,12 @@
 #include <getopt.h>
 #include <GL/glut.h>
 #include "ball.h"
+#include "gravityForceGenerator.h"
 using namespace std;
 
-#define WIDTH  600
-#define HEIGHT 600
+#define WIDTH            6
+#define HEIGHT           6
+#define PIXELS_PER_METER 100
 
 void display();
 void keyboard(unsigned char c, int x, int y);
@@ -22,8 +24,10 @@ void usage(char *);
 const char * windowTitle = "Pang game - Merino";
 
 Ball ball;
-Vector3 initialPosition(0, 0);
+Vector3 initialPosition(3, 0);
+Vector3 initialVelocity(0, 10);
 long last_t;
+bool gravity = true;
 
 int main(int argc, char * argv[]){
     /* parse options */
@@ -45,13 +49,13 @@ int main(int argc, char * argv[]){
         }
     }
 
-    ball   = Ball(1, initialPosition, Vector3(0.15, 0.15), 20, Color::ball);
+    ball   = Ball(1, initialPosition, initialVelocity, 0.1, Color::ball);
     last_t = 0;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(50, 50);
-    glutInitWindowSize(WIDTH, HEIGHT);
+    glutInitWindowSize(WIDTH * PIXELS_PER_METER, HEIGHT * PIXELS_PER_METER);
     glutCreateWindow(windowTitle);
 
     glutDisplayFunc(display);
@@ -59,7 +63,7 @@ int main(int argc, char * argv[]){
     glutIdleFunc(idle);
 
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0, WIDTH - 1, 0, HEIGHT - 1);
+    gluOrtho2D(0, WIDTH, 0, HEIGHT);
 
     glutMainLoop();
 
@@ -78,10 +82,18 @@ void display(){
 }
 
 void keyboard(unsigned char c, int x, int y){
-    if (c == ' ') ball.setPosition(initialPosition);
+    if (c == ' ') {
+        ball.setPosition(initialPosition);
+        ball.setVelocity(initialVelocity);
+    } else if (c == 'g') {
+        gravity = !gravity;
+    }
 }
 
 void idle(){
+    ball.clearForceAccumulator();
+    GravityForceGenerator gfg;
+    if (gravity) gfg.updateForce(&ball);
     long t;
 
     t = glutGet(GLUT_ELAPSED_TIME);
@@ -89,7 +101,7 @@ void idle(){
     if (last_t == 0) {
         last_t = t;
     } else {
-        ball.integrate(t - last_t);
+        ball.integrate((t - last_t) / 1000.0);
         last_t = t;
     }
 
