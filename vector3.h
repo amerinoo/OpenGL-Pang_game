@@ -26,6 +26,7 @@ public:
     Vector3 operator - (const Vector3& v);
     Vector3 operator * (double n);
     double operator * (const Vector3& v);
+    Vector3 operator / (double n);
 
 private:
     double x;

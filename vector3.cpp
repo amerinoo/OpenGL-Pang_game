@@ -5,7 +5,7 @@
  */
 #include "vector3.h"
 
-Vector3::Vector3(){ }
+Vector3::Vector3() : x(0), y(0), z(0){ }
 
 Vector3::Vector3(double x, double y, double z) : x(x), y(y), z(z){ }
 
@@ -74,4 +74,13 @@ Vector3 Vector3::operator * (double n){
 
 double Vector3::operator * (const Vector3& v){
     return this->x * v.x + this->y * v.y + this->z * v.z;
+}
+
+Vector3 Vector3::operator / (double n){
+    Vector3 vector;
+
+    vector.x = this->x / n;
+    vector.y = this->y / n;
+    vector.z = this->z / n;
+    return vector;
 }

@@ -22,10 +22,14 @@ public:
     void setVelocity(Vector3 velocity);
 
     void integrate(double time);
+    void clearForceAccumulator();
+    void addForce(Vector3 force);
 
 protected:
     double mass;
     Vector3 position;
     Vector3 velocity;
+    Vector3 acceleration;
+    Vector3 forceAccumulator;
 };
 #endif // ifndef particle_h
