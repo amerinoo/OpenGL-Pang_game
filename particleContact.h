@@ -11,7 +11,12 @@
 class ParticleContact {
 public:
     ParticleContact(Particle *, Particle *, Vector3, double = 0);
+    void resolve();
+
 private:
+    void resolveInterpenetration();
+    void resolveVelocity();
+
     Particle * particle1;
     Particle * particle2;
     Vector3 contactNormal;
