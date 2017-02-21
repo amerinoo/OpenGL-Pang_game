@@ -12,6 +12,6 @@
 class BallPlaneColDetect {
 public:
     BallPlaneColDetect();
-    ParticleContact * getParticleContact(Ball ball, Plane plane);
+    ParticleContact * getParticleContact(Ball * ball, Plane plane);
 };
 #endif // ifndef ballPlaneColDetect_h

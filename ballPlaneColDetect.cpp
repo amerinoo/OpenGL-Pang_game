@@ -7,14 +7,14 @@
 
 BallPlaneColDetect::BallPlaneColDetect(){ }
 
-ParticleContact * BallPlaneColDetect::getParticleContact(Ball ball, Plane plane){
-    double d = plane.getDistance(ball.getPosition());
+ParticleContact * BallPlaneColDetect::getParticleContact(Ball * ball, Plane plane){
+    double d = plane.getDistance(ball->getPosition());
 
-    if (d == ball.getRadius()) {
-        return new ParticleContact(&ball, NULL, plane.getNormalVector());
-    } else if (d < ball.getRadius()) {
-        return new ParticleContact(&ball, NULL, plane.getNormalVector(), ball.getRadius() - d);
-    } else  {
+    if (d == ball->getRadius()) {
+        return new ParticleContact(ball, NULL, plane.getNormalVector());
+    } else if (d < ball->getRadius()) {
+        return new ParticleContact(ball, NULL, plane.getNormalVector(), ball->getRadius() - d);
+    } else {
         return NULL;
     }
 }

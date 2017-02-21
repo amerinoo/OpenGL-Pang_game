@@ -9,7 +9,7 @@
 #include <getopt.h>
 #include <GL/glut.h>
 #include "ball.h"
-#include "gravityForceGenerator.h"
+#include "pangScenario.h"
 using namespace std;
 
 #define WIDTH            6
@@ -23,11 +23,10 @@ void usage(char *);
 
 const char * windowTitle = "Pang game - Merino";
 
-Ball ball;
-Vector3 initialPosition(3, 0);
-Vector3 initialVelocity(0, 10);
+PangScenario pangScenario;
+Vector3 initialPosition(3, 3);
+Vector3 initialVelocity(3, 0);
 long last_t;
-bool gravity = true;
 
 int main(int argc, char * argv[]){
     /* parse options */
@@ -48,9 +47,12 @@ int main(int argc, char * argv[]){
                 break;
         }
     }
-
-    ball   = Ball(1, initialPosition, initialVelocity, 0.1, Color::ball);
-    last_t = 0;
+    Plane leftPlane   = Plane(Vector3(1, 0), Vector3(0, 0));
+    Plane rightPlane  = Plane(Vector3(-1, 0), Vector3(WIDTH, 0));
+    Plane bottomPlane = Plane(Vector3(0, 1), Vector3(0, 0));
+    Ball ball         = Ball(1, initialPosition, initialVelocity, 0.1, Color::ball);
+    pangScenario = PangScenario(leftPlane, rightPlane, bottomPlane, ball);
+    last_t       = 0;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
@@ -76,24 +78,16 @@ void display(){
       Color::background.blue, Color::background.alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    ball.draw();
+    pangScenario.draw();
 
     glutSwapBuffers();
 }
 
 void keyboard(unsigned char c, int x, int y){
-    if (c == ' ') {
-        ball.setPosition(initialPosition);
-        ball.setVelocity(initialVelocity);
-    } else if (c == 'g') {
-        gravity = !gravity;
-    }
+    if (c == ' ') pangScenario.reset();
 }
 
 void idle(){
-    ball.clearForceAccumulator();
-    GravityForceGenerator gfg;
-    if (gravity) gfg.updateForce(&ball);
     long t;
 
     t = glutGet(GLUT_ELAPSED_TIME);
@@ -101,7 +95,7 @@ void idle(){
     if (last_t == 0) {
         last_t = t;
     } else {
-        ball.integrate((t - last_t) / 1000.0);
+        pangScenario.integrate((t - last_t) / 1000.0);
         last_t = t;
     }
 

@@ -10,6 +10,7 @@
 
 class Plane {
 public:
+    Plane();
     Plane(Vector3 vector, Vector3 point);
     double getDistance(Vector3 point);
     Vector3 getNormalVector();
