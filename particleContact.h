@@ -10,7 +10,7 @@
 
 class ParticleContact {
 public:
-    ParticleContact(Particle *, Particle *, Vector3, double);
+    ParticleContact(Particle *, Particle *, Vector3, double = 0);
 private:
     Particle * particle1;
     Particle * particle2;
