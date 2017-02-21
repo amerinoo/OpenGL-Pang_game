@@ -9,10 +9,12 @@ CC = g++
 CFLAGS = -Wall -g -lglut -lGLU -lGL -lm
 
 # Files to compile
-CFILES = main.cpp vector3.cpp particle.cpp ball.cpp color.cpp forceGenerator.cpp gravityForceGenerator.cpp plane.cpp
+CFILES = main.cpp vector3.cpp particle.cpp ball.cpp color.cpp forceGenerator.cpp \
+		gravityForceGenerator.cpp plane.cpp particleContact.cpp
 
 # Files' headers
-HFILES = vector3.h particle.h ball.h color.h forceGenerator.h gravityForceGenerator.h plane.h
+HFILES = vector3.h particle.h ball.h color.h forceGenerator.h \
+	gravityForceGenerator.h plane.h particleContact.h
 
 # The build target executable:
 TARGET = pang_game
