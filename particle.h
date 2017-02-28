@@ -24,6 +24,7 @@ public:
     void integrate(double time);
     void clearForceAccumulator();
     void addForce(Vector3 force);
+    double getDistance(Vector3 point);
 
 protected:
     double mass;

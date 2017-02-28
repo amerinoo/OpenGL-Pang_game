@@ -35,3 +35,11 @@ void Particle::clearForceAccumulator(){
 }
 
 void Particle::addForce(Vector3 force){ forceAccumulator = forceAccumulator + force; }
+
+double Particle::getDistance(Vector3 point){
+    double a = position.getX() - point.getX();
+    double b = position.getY() - point.getY();
+    double c = position.getZ() - point.getZ();
+
+    return sqrt(a * a + b * b + c * c);
+}
