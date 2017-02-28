@@ -7,8 +7,8 @@
 
 Ball::Ball(){ }
 
-Ball::Ball(double mass, Vector3 position, Vector3 velocity, double radius, Color color)
-    : Particle(mass, position, velocity), radius(radius), color(color){ }
+Ball::Ball(Vector3 position, Vector3 velocity, double radius, Color color)
+    : Particle(calculateMass(radius), position, velocity), radius(radius), color(color){ }
 
 double Ball::getRadius(){ return radius; }
 
@@ -34,4 +34,11 @@ void Ball::draw(){
     glEnd();
 
     glPopMatrix();
+}
+
+double Ball::calculateMass(double radius){
+    double density = 1;
+    double volume  = 4 / 3.0 * M_PI * pow(radius, 3);
+
+    return density * volume;
 }

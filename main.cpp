@@ -25,7 +25,7 @@ void usage(char *);
 const char * windowTitle = "Pang game - Merino";
 
 PangScenario pangScenario;
-Vector3 initialPosition(2, 2);
+Vector3 initialPosition(4, 4);
 Vector3 initialVelocity(3, 0);
 long last_t;
 
@@ -52,9 +52,12 @@ int main(int argc, char * argv[]){
     Plane rightPlane  = Plane(Vector3(-1, 0), Vector3(WIDTH, 0));
     Plane bottomPlane = Plane(Vector3(0, 1), Vector3(0, 0));
     vector<Ball *> balls;
-    balls.push_back(new Ball(1, initialPosition, initialVelocity, 0.3, Color::ball));
-    balls.push_back(new Ball(2, initialPosition * 2, initialVelocity, 0.3, Color::ball));
-    balls.push_back(new Ball(4, initialPosition * 3, initialVelocity, 0.3, Color::ball));
+    double little = 0.2;
+    double medium = little * 1.5;
+    double big    = medium * 1.5;
+    balls.push_back(new Ball(initialPosition, initialVelocity, little, Color::ball));
+    balls.push_back(new Ball(initialPosition, initialVelocity, medium, Color::ball));
+    balls.push_back(new Ball(initialPosition, initialVelocity, big, Color::ball));
     pangScenario = PangScenario(leftPlane, rightPlane, bottomPlane, balls);
     last_t       = 0;
 
