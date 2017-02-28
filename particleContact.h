@@ -5,6 +5,7 @@
  */
 #ifndef particleContact_h
 #define particleContact_h
+#include <cstddef>
 #include "particle.h"
 #include "vector3.h"
 
