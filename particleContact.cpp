@@ -46,3 +46,5 @@ void ParticleContact::resolveVelocity(){
         particle2->setVelocity(particle2->getVelocity() + closingVel * invB / invAB * 2);
     }
 }
+
+Vector3 ParticleContact::getContactNormal(){ return contactNormal; }

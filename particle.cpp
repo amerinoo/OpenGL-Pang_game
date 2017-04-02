@@ -8,7 +8,7 @@
 Particle::Particle(){ }
 
 Particle::Particle(double mass, Vector3 position, Vector3 velocity)
-    : mass(mass), position(position), velocity(velocity){ }
+    : mass(mass), position(position), velocity(velocity), acceleration(Vector3()){ }
 
 double Particle::getMass(){ return mass; }
 

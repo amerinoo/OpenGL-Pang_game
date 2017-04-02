@@ -12,6 +12,7 @@ Color::Color(const GLfloat red, const GLfloat green, const GLfloat blue, const G
 
 const Color Color::background = Color(0, 250, 0);
 const Color Color::ball       = Color(180, 0, 0);
+const Color Color::player     = Color(0, 0, 0);
 
 GLfloat Color::RGBToGlut(int num){
     return num / 255.0;

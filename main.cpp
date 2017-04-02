@@ -11,6 +11,7 @@
 #include <vector>
 #include "ball.h"
 #include "pangScenario.h"
+#include "character.h"
 using namespace std;
 
 #define WIDTH            6
@@ -19,14 +20,13 @@ using namespace std;
 
 void display();
 void keyboard(unsigned char c, int x, int y);
+void special(int key, int x, int y);
 void idle();
 void usage(char *);
 
 const char * windowTitle = "Pang game - Merino";
 
 PangScenario pangScenario;
-Vector3 initialPosition(4, 4);
-Vector3 initialVelocity(3, 0);
 long last_t;
 
 int main(int argc, char * argv[]){
@@ -51,14 +51,7 @@ int main(int argc, char * argv[]){
     Plane leftPlane   = Plane(Vector3(1, 0), Vector3(0, 0));
     Plane rightPlane  = Plane(Vector3(-1, 0), Vector3(WIDTH, 0));
     Plane bottomPlane = Plane(Vector3(0, 1), Vector3(0, 0));
-    vector<Ball *> balls;
-    double little = 0.2;
-    double medium = little * 1.5;
-    double big    = medium * 1.5;
-    balls.push_back(new Ball(initialPosition, initialVelocity, little, Color::ball));
-    balls.push_back(new Ball(initialPosition, initialVelocity, medium, Color::ball));
-    balls.push_back(new Ball(initialPosition, initialVelocity, big, Color::ball));
-    pangScenario = PangScenario(leftPlane, rightPlane, bottomPlane, balls);
+    pangScenario = PangScenario(leftPlane, rightPlane, bottomPlane);
     last_t       = 0;
 
     glutInit(&argc, argv);
@@ -69,11 +62,11 @@ int main(int argc, char * argv[]){
 
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
+    glutSpecialFunc(special);
     glutIdleFunc(idle);
 
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, WIDTH, 0, HEIGHT);
-
     glutMainLoop();
 
 
@@ -91,7 +84,24 @@ void display(){
 }
 
 void keyboard(unsigned char c, int x, int y){
-    if (c == ' ') pangScenario.reset();
+    if (c == ' ') pangScenario.shoot();
+    if (c == 'r') pangScenario.reset();
+}
+
+void special(int key, int x, int y){
+    switch (key) {
+        case GLUT_KEY_UP:
+            break;
+        case GLUT_KEY_DOWN:
+            break;
+        case GLUT_KEY_LEFT:
+            pangScenario.move(0);
+            break;
+        case GLUT_KEY_RIGHT:
+            pangScenario.move(1);
+            break;
+    }
+    glutPostRedisplay();
 }
 
 void idle(){

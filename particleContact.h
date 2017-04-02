@@ -13,6 +13,7 @@ class ParticleContact {
 public:
     ParticleContact(Particle *, Particle *, Vector3, double = 0);
     void resolve();
+    Vector3 getContactNormal();
 
 private:
     void resolveInterpenetration();

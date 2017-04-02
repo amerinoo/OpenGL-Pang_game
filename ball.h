@@ -7,11 +7,19 @@
 #define ball_h
 #include <GL/glut.h>
 #include <cmath>
+#include <vector>
 #include "particle.h"
 #include "color.h"
+#include "ball.h"
+#include "particleContact.h"
+using namespace std;
 
 class Ball : public Particle {
 public:
+    static const double little;
+    static const double medium;
+    static const double big;
+
     Ball();
     Ball(Vector3 position, Vector3 velocity, double radius, Color color);
 
@@ -23,7 +31,9 @@ public:
 
     void draw();
     double calculateMass(double radius);
+    void split(vector<Ball *> &balls, Ball * ball, ParticleContact * particleContactBall);
 private:
+
     double radius;
     Color color;
 };
