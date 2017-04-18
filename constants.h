@@ -24,6 +24,10 @@ public:
     static const double SMALL_BALL_SIZE  = 0.2; // meters
     static const double MEDIUM_BALL_SIZE = 0.4; // meters
     static const double BIG_BALL_SIZE    = 0.8; // meters
+
+    static const double EPSILON         = 0.1; // meters
+    static const double SAFETY_DISTANCE = 2.5; // meters
+    static const double CONE_WIDTH      = 0.5;
     Constants(){ }
 };
 
