@@ -7,7 +7,7 @@
 
 HumanPlayer::HumanPlayer(){ }
 
-HumanPlayer::HumanPlayer(const char * name, int playerNumber)
+HumanPlayer::HumanPlayer(const char * name, PlayerID playerNumber)
     : Player(name, playerNumber, false){ }
 
-bool HumanPlayer::getMovement(PangScenario * ps, int * move){ return false; }
+bool HumanPlayer::getMovement(PangScenario * ps, Action * move){ return false; }

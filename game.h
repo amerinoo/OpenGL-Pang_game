@@ -7,6 +7,7 @@
 #define game_h
 
 #include "humanPlayer.h"
+#include "botPlayer.h"
 #include "pangScenario.h"
 
 class Game  {
@@ -16,6 +17,7 @@ public:
     PangScenario * getPangScenario();
     void printScores(float width, float height, int i);
     void integrate(double t);
+    void move(Player * player);
     void startGame();
 
 private:

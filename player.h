@@ -10,18 +10,20 @@
 
 #include <cstring>
 #include "pangScenario.h"
+#include "constants.h"
 
 class Player {
 public:
     Player();
-    Player(const char * name, int playerNumber, bool AIcontrolled);
-    virtual bool getMovement(PangScenario * ps, int * move) = 0;
+    Player(const char * name, PlayerID playerNumber, bool AIcontrolled);
+    virtual bool getMovement(PangScenario * ps, Action * move) = 0;
     char * getPlayerName();
-    int getPlayerNumber();
+    PlayerID getPlayerNumber();
+    bool isAIControlled();
 
-private:
+protected:
     char name[MAX_LENGHT];
-    int playerNumber;
+    PlayerID playerNumber;
     bool AIcontrolled;
 };
 #endif // ifndef player_h

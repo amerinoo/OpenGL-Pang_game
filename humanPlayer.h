@@ -11,7 +11,7 @@
 class HumanPlayer : public Player {
 public:
     HumanPlayer();
-    HumanPlayer(const char * name, int playerNumber);
-    bool getMovement(PangScenario * ps, int * move);
+    HumanPlayer(const char * name, PlayerID playerNumber);
+    bool getMovement(PangScenario * ps, Action * move);
 };
 #endif // ifndef human_player_h
