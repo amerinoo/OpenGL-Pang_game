@@ -4,29 +4,23 @@
  * Student : Albert Eduard Merino Pulido
  */
 #include <iostream>
-#include <cstring>
-#include <cstdlib>
 #include <getopt.h>
 #include <GL/glut.h>
-#include <vector>
-#include "ball.h"
-#include "pangScenario.h"
-#include "character.h"
+#include "game.h"
+#include "constants.h"
 using namespace std;
-
-#define WIDTH            6
-#define HEIGHT           6
-#define PIXELS_PER_METER 100
 
 void display();
 void keyboard(unsigned char c, int x, int y);
+void keyboardUp(unsigned char c, int x, int y);
 void special(int key, int x, int y);
+void specialUp(int key, int x, int y);
 void idle();
 void usage(char *);
 
 const char * windowTitle = "Pang game - Merino";
 
-PangScenario pangScenario;
+Game game;
 long last_t;
 
 int main(int argc, char * argv[]){
@@ -48,25 +42,31 @@ int main(int argc, char * argv[]){
                 break;
         }
     }
+    srand(time(NULL));
     Plane leftPlane   = Plane(Vector3(1, 0), Vector3(0, 0));
-    Plane rightPlane  = Plane(Vector3(-1, 0), Vector3(WIDTH, 0));
+    Plane rightPlane  = Plane(Vector3(-1, 0), Vector3(Constants::DEFAULT_WIDTH, 0));
     Plane bottomPlane = Plane(Vector3(0, 1), Vector3(0, 0));
-    pangScenario = PangScenario(leftPlane, rightPlane, bottomPlane);
-    last_t       = 0;
+    game = Game(new PangScenario(leftPlane, rightPlane, bottomPlane,
+          Constants::DEFAULT_WIDTH, Constants::DEFAULT_HEIGHT));
+    game.startGame();
+    last_t = 0;
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowPosition(50, 50);
-    glutInitWindowSize(WIDTH * PIXELS_PER_METER, HEIGHT * PIXELS_PER_METER);
+    glutInitWindowSize(Constants::DEFAULT_WIDTH * Constants::PIXELS_PER_METER,
+      Constants::DEFAULT_HEIGHT * Constants::PIXELS_PER_METER);
     glutCreateWindow(windowTitle);
 
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(special);
+    glutSpecialUpFunc(specialUp);
     glutIdleFunc(idle);
 
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0, WIDTH, 0, HEIGHT);
+    gluOrtho2D(0, Constants::DEFAULT_WIDTH, 0, Constants::DEFAULT_HEIGHT);
     glutMainLoop();
 
 
@@ -78,14 +78,27 @@ void display(){
       Color::background.blue, Color::background.alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    pangScenario.draw();
+    game.getPangScenario()->draw();
+    game.printScores(1, Constants::DEFAULT_HEIGHT * 0.95, 0);
+    game.printScores(1, Constants::DEFAULT_HEIGHT * 0.9, 1);
 
     glutSwapBuffers();
 }
 
 void keyboard(unsigned char c, int x, int y){
-    if (c == ' ') pangScenario.shoot();
-    if (c == 'r') pangScenario.reset();
+    c = tolower(c); // Prevent upper case
+
+    if (c == '-') game.getPangScenario()->shoot(PLAYER_1);
+    else if (c == ' ') game.getPangScenario()->shoot(PLAYER_2);
+    else if (c == 'r') game.getPangScenario()->reset();
+    else if (c == 'a') game.getPangScenario()->move(PLAYER_2, LEFT);
+    else if (c == 'd') game.getPangScenario()->move(PLAYER_2, RIGHT);
+}
+
+void keyboardUp(unsigned char c, int x, int y){
+    c = tolower(c); // Prevent upper case
+
+    if (c == 'a' || c == 'd') game.getPangScenario()->move(PLAYER_2, STOP);
 }
 
 void special(int key, int x, int y){
@@ -95,10 +108,24 @@ void special(int key, int x, int y){
         case GLUT_KEY_DOWN:
             break;
         case GLUT_KEY_LEFT:
-            pangScenario.move(0);
+            game.getPangScenario()->move(PLAYER_1, LEFT);
             break;
         case GLUT_KEY_RIGHT:
-            pangScenario.move(1);
+            game.getPangScenario()->move(PLAYER_1, RIGHT);
+            break;
+    }
+    glutPostRedisplay();
+}
+
+void specialUp(int key, int x, int y){
+    switch (key) {
+        case GLUT_KEY_UP:
+            break;
+        case GLUT_KEY_DOWN:
+            break;
+        case GLUT_KEY_LEFT:
+        case GLUT_KEY_RIGHT:
+            game.getPangScenario()->move(PLAYER_1, STOP);
             break;
     }
     glutPostRedisplay();
@@ -112,7 +139,7 @@ void idle(){
     if (last_t == 0) {
         last_t = t;
     } else {
-        pangScenario.integrate((t - last_t) / 1000.0);
+        game.integrate((t - last_t) / 1000.0);
         last_t = t;
     }
 

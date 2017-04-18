@@ -11,7 +11,8 @@ class Color {
 public:
     static const Color background;
     static const Color ball;
-    static const Color player;
+    static const Color player1;
+    static const Color player2;
     GLfloat red;
     GLfloat green;
     GLfloat blue;

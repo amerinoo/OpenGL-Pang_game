@@ -5,10 +5,6 @@
  */
 #include "ball.h"
 
-const double Ball::little = 0.2;
-const double Ball::medium = 0.3;
-const double Ball::big    = 0.4;
-
 Ball::Ball(){ }
 
 Ball::Ball(Vector3 position, Vector3 velocity, double radius, Color color)
@@ -47,14 +43,22 @@ double Ball::calculateMass(double radius){
     return density * volume;
 }
 
-void Ball::split(vector<Ball *> &balls, Ball * ball, ParticleContact * particleContactBall){
+double Ball::split(vector<Ball *> &balls, Ball * ball, ParticleContact * particleContactBall){
     Vector3 contactNormal        = particleContactBall->getContactNormal();
     Vector3 contactNormalRotated = Vector3(-contactNormal.getY(), contactNormal.getX());
+    double points;
     double radius;
 
-    if (this->radius == Ball::big) radius = Ball::medium;
-    else if (this->radius == Ball::medium) radius = Ball::little;
-    else if (this->radius == Ball::little) radius = 0;
+    if (this->radius == Constants::BIG_BALL_SIZE) {
+        radius = Constants::MEDIUM_BALL_SIZE;
+        points = Constants::BIG_BALL_POINTS;
+    } else if (this->radius == Constants::MEDIUM_BALL_SIZE) {
+        radius = Constants::SMALL_BALL_SIZE;
+        points = Constants::MEDIUM_BALL_POINTS;
+    } else if (this->radius == Constants::SMALL_BALL_SIZE) {
+        radius = 0;
+        points = Constants::SMALL_BALL_POINTS;
+    }
     if (radius != 0) {
         double velocitySeparator = 5;
         balls.push_back(new Ball(ball->getPosition() + contactNormalRotated * radius,
@@ -62,4 +66,5 @@ void Ball::split(vector<Ball *> &balls, Ball * ball, ParticleContact * particleC
         balls.push_back(new Ball(ball->getPosition() - contactNormalRotated * radius,
               ball->getVelocity() - contactNormalRotated * velocitySeparator, radius, Color::ball));
     }
+    return points;
 }

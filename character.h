@@ -15,7 +15,7 @@
 class Character : public Particle {
 public:
     Character();
-    Character(Vector3 position, double baseWidth, double height, Color color);
+    Character(Vector3 position, double baseWidth, double height, Color color, int playerNumber);
     void setDimensions(double baseWidth, double height);
     void setColor(Color color);
     void integrate(double time);
@@ -26,6 +26,16 @@ public:
     void shoot(double time = 2);
     bool hasBullet();
     void removeBullet();
+    int getScore();
+    void addScore(int score);
+    void resetScore();
+    bool hasLives();
+    int getLives();
+    void setLives(int lives);
+    void substractLive();
+    int getWins();
+    void addWin();
+    int getPlayerNumber();
 
     Bullet * getBullet();
     Ball * getMargin();
@@ -35,5 +45,11 @@ private:
     double height;
     Color color;
     Bullet * bullet;
+    int score;
+    int lives;
+    int wins;
+    int playerNumber;
+    bool isImmortal;
+    double timeImmortal;
 };
 #endif // ifndef character_h
