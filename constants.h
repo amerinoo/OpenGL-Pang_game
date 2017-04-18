@@ -41,9 +41,9 @@ enum StrategyType {
 };
 
 enum Action {
-    LEFT,
-    RIGHT,
-    STOP
+    STOP  = 0,
+    RIGHT = 1,
+    LEFT  = 2
 };
 
 #endif // ifndef enums_h
