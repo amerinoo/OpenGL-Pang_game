@@ -20,7 +20,7 @@ bool AI::computeMove(PangScenario * ps, PlayerID playerNumber, Action * move){
         (*move)        = STOP;
     }
 
-    return character->hasBullet();
+    return !character->hasBullet();
 }
 
 double AI::getRandomTargetPosition(){ return rand() % Constants::DEFAULT_WIDTH; }
