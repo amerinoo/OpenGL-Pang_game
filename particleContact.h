@@ -13,6 +13,7 @@ class ParticleContact {
 public:
     ParticleContact(Particle *, Particle *, Vector3, double = 0);
     void resolve();
+    void resolve(Particle * character);
     Vector3 getContactNormal();
 
 private:

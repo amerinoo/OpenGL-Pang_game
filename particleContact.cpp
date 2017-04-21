@@ -14,6 +14,11 @@ void ParticleContact::resolve(){
     resolveVelocity();
 }
 
+void ParticleContact::resolve(Particle * character){
+    particle1 = character;
+    resolveInterpenetration();
+}
+
 void ParticleContact::resolveInterpenetration(){
     double displacement;
 

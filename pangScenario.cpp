@@ -96,7 +96,7 @@ void PangScenario::checkColCharacterPlane(Character * character, Plane plane){
     ParticleContact * particleContactLeft = ballPlaneColDetect.getParticleContact(character->getMargin(), plane);
 
     if (particleContactLeft != NULL) {
-        particleContactLeft->resolve();
+        particleContactLeft->resolve(character);
         character->stop();
     }
 }
