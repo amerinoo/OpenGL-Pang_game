@@ -22,6 +22,9 @@ public:
     void pause();
 
 private:
+    Player * createPlayer(PlayerID player, char * name, StrategyType type);
+    AI * chooseAgent(StrategyType type);
+
     PangScenario * pangScenario;
     Player * player1;
     Player * player2;

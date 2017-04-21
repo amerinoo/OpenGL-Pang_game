@@ -8,10 +8,8 @@
 Game::Game(){ }
 
 Game::Game(PangScenario * pangScenario) : pangScenario(pangScenario){
-    player1 = new HumanPlayer("Player 1", PLAYER_1);
-    player1 = new BotPlayer("Player 1", PLAYER_1, new AI());
-    player2 = new BotPlayer("Player 2", PLAYER_2, new AI());
-    player2 = new BotPlayer("Player 2", PLAYER_2, new ReflexAgentAI());
+    player1 = createPlayer(PLAYER_1, Constants::player1Name, Constants::strategyTypePlayer);
+    player2 = createPlayer(PLAYER_2, Constants::player2Name, Constants::strategyTypeEnemy);
 }
 
 PangScenario * Game::getPangScenario(){ return pangScenario; }
@@ -46,4 +44,21 @@ void Game::printScores(float width, float height, int i){
 
 void Game::pause(){
     playing = !playing;
+}
+
+Player * Game::createPlayer(PlayerID player, char * name, StrategyType type){
+    AI * ai = chooseAgent(type);
+
+    if (ai == NULL) return new HumanPlayer(name, player);
+    else return new BotPlayer(name, player, ai);
+}
+
+AI * Game::chooseAgent(StrategyType type){
+    switch (type) {
+        case HUMAN_AGENT:
+            break;
+        case REFLEX_AGENT:
+            return new ReflexAgentAI();
+    }
+    return NULL;
 }
