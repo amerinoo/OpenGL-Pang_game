@@ -19,6 +19,7 @@ public:
     void integrate(double t);
     void move(Player * player);
     void startGame();
+    void pause();
 
 private:
     PangScenario * pangScenario;

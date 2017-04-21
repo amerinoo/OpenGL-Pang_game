@@ -43,3 +43,7 @@ void Game::printScores(float width, float height, int i){
 
     pangScenario->printScores(width, height, i, player->getPlayerName());
 }
+
+void Game::pause(){
+    playing = !playing;
+}

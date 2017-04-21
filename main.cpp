@@ -91,6 +91,7 @@ void keyboard(unsigned char c, int x, int y){
     if (c == '-') game.getPangScenario()->shoot(PLAYER_1);
     else if (c == ' ') game.getPangScenario()->shoot(PLAYER_2);
     else if (c == 'r') game.getPangScenario()->reset();
+    else if (c == 'p') game.pause();
     else if (c == 'a') game.getPangScenario()->move(PLAYER_2, LEFT);
     else if (c == 'd') game.getPangScenario()->move(PLAYER_2, RIGHT);
 }
