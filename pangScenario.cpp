@@ -159,14 +159,12 @@ void PangScenario::draw(){
 void PangScenario::shoot(PlayerID id){ characters[id]->shoot(); }
 
 void PangScenario::move(PlayerID id, Action action){
-    double speed = 2;
-
     switch (action) {
         case LEFT:
-            characters[id]->moveLeft(speed);
+            characters[id]->moveLeft(Constants::CHARACTER_SPEED);
             break;
         case RIGHT:
-            characters[id]->moveRight(speed);
+            characters[id]->moveRight(Constants::CHARACTER_SPEED);
             break;
         case STOP:
             characters[id]->stop();

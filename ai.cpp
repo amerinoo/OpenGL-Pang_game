@@ -8,7 +8,6 @@
 
 AI::AI() : targetPosition(getRandomTargetPosition()){ }
 
-#include <iostream>
 bool AI::computeMove(PangScenario * ps, PlayerID playerNumber, Action * move){
     Character * character = ps->characters[playerNumber];
     Vector3 position      = character->getPosition();

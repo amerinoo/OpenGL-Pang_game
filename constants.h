@@ -12,8 +12,9 @@ public:
     static const int DEFAULT_HEIGHT   = 8;   // meters
     static const int PIXELS_PER_METER = 100; // pixels
 
-    static const int DEFAULT_LIVES = 3;
-    static const int TIME_IMMORTAL = 1; // seconds
+    static const int DEFAULT_LIVES   = 3;
+    static const int TIME_IMMORTAL   = 1; // seconds
+    static const int CHARACTER_SPEED = 4;
 
     static const int BIG_BALL_POINTS    = 100;
     static const int MEDIUM_BALL_POINTS = 50;
@@ -25,7 +26,7 @@ public:
     static const double MEDIUM_BALL_SIZE = 0.4; // meters
     static const double BIG_BALL_SIZE    = 0.8; // meters
 
-    static const double EPSILON         = 0.1; // meters
+    static const double EPSILON         = 0.2; // meters
     static const double SAFETY_DISTANCE = 2.5; // meters
     static const double CONE_WIDTH      = 0.5;
     Constants(){ }

@@ -7,7 +7,7 @@
 #define bot_player_h
 
 #include "player.h"
-#include "ai.h"
+#include "ais.h"
 
 class BotPlayer : public Player {
 public:
