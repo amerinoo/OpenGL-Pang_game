@@ -108,10 +108,4 @@ bool ReflexAgentAI::approachingToTheVertical(Character * character, Ball * ball)
     bool isBallDirectionRight  = ball->getVelocity().getX() > 0;
 
     return (isOnTheRightOfTheBall && isBallDirectionRight) || (!isOnTheRightOfTheBall && !isBallDirectionRight);
-    // if (isOnTheRightOfTheBall && isBallDirectionRight) {
-    //     return true;
-    // } else if (!isOnTheRightOfTheBall && !isBallDirectionRight)    {
-    //     return true;
-    // }
-    // return false;
 }
