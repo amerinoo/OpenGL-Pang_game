@@ -23,22 +23,38 @@ const char * windowTitle = "Pang game - Merino";
 Game game;
 long last_t;
 
+StrategyType Constants::strategyTypePlayer = HUMAN_AGENT;
+StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
 int main(int argc, char * argv[]){
+    char quiet = 0;
+
     /* parse options */
     int option_index = 0, opt;
     static struct option loptions[] = {
-        { "help", no_argument, 0, 'h' },
-        { NULL,             0, 0,   0 }
+        { "help",   no_argument,       0, 'h' },
+        { "player", required_argument, 0, 'P' },
+        { "enemy",  required_argument, 0, 'E' },
+        { NULL,                     0, 0,   0 }
     };
 
     while (1) {
-        opt = getopt_long(argc, argv, "h",
+        opt = getopt_long(argc, argv, "hP:E:",
           loptions, &option_index);
         if (opt == -1) break;
         switch (opt) {
             case '0': break;
             case 'h':
                 usage(argv[0]);
+                break;
+            case 'P':
+                if (strcmp("human", optarg) == 0) Constants::strategyTypePlayer = HUMAN_AGENT;
+                else if (strcmp("reflex", optarg) == 0) Constants::strategyTypePlayer = REFLEX_AGENT;
+                if (!quiet) cout << "Strategy Player : " << optarg << "\n";
+                break;
+            case 'E':
+                if (strcmp("human", optarg) == 0) Constants::strategyTypeEnemy = HUMAN_AGENT;
+                else if (strcmp("reflex", optarg) == 0) Constants::strategyTypeEnemy = REFLEX_AGENT;
+                if (!quiet) cout << "Strategy Enemy : " << optarg << "\n";
                 break;
         }
     }
@@ -152,9 +168,16 @@ void usage(char * name){
     cout << "Usage: " << name << " [OPTIONS]" << endl
          << "\nHelp options:" << endl
          << "  -h, --help         Print this help message" << endl
+         << "\nAgent options:" << endl
+         << "  -P  --player       Select player strategy (Default Human)" << endl
+         << "  -E  --enemy        Select enemy strategy (Default Reflex)" << endl
+         << "  Options:" << endl
+         << "    · reflex" << endl
+         << "" << endl
          << "Note: Order is not important." << endl
          << "Examples:" << endl
          << "  " << name << endl
+         << "  " << name << " -P reflex -E human" << endl
          << endl;
     exit(EXIT_SUCCESS);
 }

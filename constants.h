@@ -6,6 +6,11 @@
 #ifndef enums_h
 #define enums_h
 
+enum StrategyType {
+    HUMAN_AGENT,
+    REFLEX_AGENT
+};
+
 class Constants {
 public:
     static const int DEFAULT_WIDTH    = 16;  // meters
@@ -29,7 +34,9 @@ public:
     static const double EPSILON         = 0.2; // meters
     static const double SAFETY_DISTANCE = 2.5; // meters
     static const double CONE_WIDTH      = 0.5;
-    Constants(){ }
+
+    static StrategyType strategyTypePlayer;
+    static StrategyType strategyTypeEnemy;
 };
 
 enum PlayerID {
@@ -37,9 +44,6 @@ enum PlayerID {
     PLAYER_2 = 1
 };
 
-enum StrategyType {
-    HUMAN_AGENT
-};
 
 enum Action {
     STOP  = 0,
