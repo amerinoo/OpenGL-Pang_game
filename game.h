@@ -23,7 +23,7 @@ public:
 
 private:
     Player * createPlayer(PlayerID player, char * name, StrategyType type);
-    AI * chooseAgent(StrategyType type);
+    AI * chooseAgent(StrategyType type, char * name);
 
     PangScenario * pangScenario;
     Player * player1;

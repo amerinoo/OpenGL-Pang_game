@@ -26,20 +26,22 @@ long last_t;
 
 StrategyType Constants::strategyTypePlayer = HUMAN_AGENT;
 StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
+char * Constants::player1Name = (char *) "Player 1";
+char * Constants::player2Name = (char *) "Player 2";
 int main(int argc, char * argv[]){
-    char quiet = 0;
-
     /* parse options */
     int option_index = 0, opt;
     static struct option loptions[] = {
-        { "help",   no_argument,       0, 'h' },
-        { "player", required_argument, 0, 'P' },
-        { "enemy",  required_argument, 0, 'E' },
-        { NULL,                     0, 0,   0 }
+        { "help",        no_argument,       0, 'h' },
+        { "player",      required_argument, 0, 'P' },
+        { "enemy",       required_argument, 0, 'E' },
+        { "player_name", required_argument, 0, 'p' },
+        { "enemy_name",  required_argument, 0, 'e' },
+        { NULL,                          0, 0,   0 }
     };
 
     while (1) {
-        opt = getopt_long(argc, argv, "hP:E:",
+        opt = getopt_long(argc, argv, "hP:E:p:e:",
           loptions, &option_index);
         if (opt == -1) break;
         switch (opt) {
@@ -49,11 +51,15 @@ int main(int argc, char * argv[]){
                 break;
             case 'P':
                 changeStrategyType(&Constants::strategyTypePlayer, optarg);
-                if (!quiet) cout << "Strategy Player : " << optarg << "\n";
                 break;
             case 'E':
                 changeStrategyType(&Constants::strategyTypeEnemy, optarg);
-                if (!quiet) cout << "Strategy Enemy : " << optarg << "\n";
+                break;
+            case 'p':
+                Constants::player1Name = optarg;
+                break;
+            case 'e':
+                Constants::player2Name = optarg;
                 break;
         }
     }
@@ -166,17 +172,23 @@ void idle(){
 void usage(char * name){
     cout << "Usage: " << name << " [OPTIONS]" << endl
          << "\nHelp options:" << endl
-         << "  -h, --help         Print this help message" << endl
+         << "  -h, --help              Print this help message" << endl
          << "\nAgent options:" << endl
-         << "  -P  --player       Select player strategy (Default Human)" << endl
-         << "  -E  --enemy        Select enemy strategy (Default Reflex)" << endl
+         << "  -P  --player            Select player strategy (Default Human)" << endl
+         << "  -E  --enemy             Select enemy strategy  (Default Reflex)" << endl
          << "  Options:" << endl
+         << "    · human" << endl
+         << "    · random" << endl
          << "    · reflex" << endl
+         << "\nAgent name options:" << endl
+         << "  -p  --player_name       Change player name (Default Player 1)" << endl
+         << "  -e  --enemy_name        Change enemy name  (Default Player 2)" << endl
          << "" << endl
          << "Note: Order is not important." << endl
          << "Examples:" << endl
          << "  " << name << endl
          << "  " << name << " -P reflex -E human" << endl
+         << "  " << name << " -e Merino" << endl
          << endl;
     exit(EXIT_SUCCESS);
 }

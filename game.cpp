@@ -47,21 +47,28 @@ void Game::pause(){
 }
 
 Player * Game::createPlayer(PlayerID player, char * name, StrategyType type){
-    AI * ai = chooseAgent(type);
+    AI * ai = chooseAgent(type, name);
 
     if (ai == NULL) return new HumanPlayer(name, player);
     else return new BotPlayer(name, player, ai);
 }
 
-AI * Game::chooseAgent(StrategyType type){
+AI * Game::chooseAgent(StrategyType type, char * name){
+    AI * ai = NULL;
+
     switch (type) {
         case HUMAN_AGENT:
+            std::cout << "Human agent";
             break;
         case RANDOM_AGENT:
-            return new AI();
-
+            std::cout << "Random agent";
+            ai = new AI();
+            break;
         case REFLEX_AGENT:
-            return new ReflexAgentAI();
+            std::cout << "Reflex agent";
+            ai = new ReflexAgentAI();
+            break;
     }
-    return NULL;
+    std::cout << " chosen for " << name << '\n';
+    return ai;
 }

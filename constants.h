@@ -36,6 +36,8 @@ public:
     static const double SAFETY_DISTANCE = 2.5; // meters
     static const double CONE_WIDTH      = 0.5;
 
+    static char * player1Name;
+    static char * player2Name;
     static StrategyType strategyTypePlayer;
     static StrategyType strategyTypeEnemy;
 };
