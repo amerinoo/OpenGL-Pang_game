@@ -48,11 +48,13 @@ int main(int argc, char * argv[]){
                 break;
             case 'P':
                 if (strcmp("human", optarg) == 0) Constants::strategyTypePlayer = HUMAN_AGENT;
+                else if (strcmp("random", optarg) == 0) Constants::strategyTypePlayer = RANDOM_AGENT;
                 else if (strcmp("reflex", optarg) == 0) Constants::strategyTypePlayer = REFLEX_AGENT;
                 if (!quiet) cout << "Strategy Player : " << optarg << "\n";
                 break;
             case 'E':
                 if (strcmp("human", optarg) == 0) Constants::strategyTypeEnemy = HUMAN_AGENT;
+                else if (strcmp("random", optarg) == 0) Constants::strategyTypeEnemy = RANDOM_AGENT;
                 else if (strcmp("reflex", optarg) == 0) Constants::strategyTypeEnemy = REFLEX_AGENT;
                 if (!quiet) cout << "Strategy Enemy : " << optarg << "\n";
                 break;

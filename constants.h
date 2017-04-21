@@ -8,6 +8,7 @@
 
 enum StrategyType {
     HUMAN_AGENT,
+    RANDOM_AGENT,
     REFLEX_AGENT
 };
 

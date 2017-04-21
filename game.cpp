@@ -57,6 +57,9 @@ AI * Game::chooseAgent(StrategyType type){
     switch (type) {
         case HUMAN_AGENT:
             break;
+        case RANDOM_AGENT:
+            return new AI();
+
         case REFLEX_AGENT:
             return new ReflexAgentAI();
     }
