@@ -17,6 +17,7 @@ void special(int key, int x, int y);
 void specialUp(int key, int x, int y);
 void idle();
 void usage(char *);
+void changeStrategyType(StrategyType * strategy, char * optarg);
 
 const char * windowTitle = "Pang game - Merino";
 
@@ -47,15 +48,11 @@ int main(int argc, char * argv[]){
                 usage(argv[0]);
                 break;
             case 'P':
-                if (strcmp("human", optarg) == 0) Constants::strategyTypePlayer = HUMAN_AGENT;
-                else if (strcmp("random", optarg) == 0) Constants::strategyTypePlayer = RANDOM_AGENT;
-                else if (strcmp("reflex", optarg) == 0) Constants::strategyTypePlayer = REFLEX_AGENT;
+                changeStrategyType(&Constants::strategyTypePlayer, optarg);
                 if (!quiet) cout << "Strategy Player : " << optarg << "\n";
                 break;
             case 'E':
-                if (strcmp("human", optarg) == 0) Constants::strategyTypeEnemy = HUMAN_AGENT;
-                else if (strcmp("random", optarg) == 0) Constants::strategyTypeEnemy = RANDOM_AGENT;
-                else if (strcmp("reflex", optarg) == 0) Constants::strategyTypeEnemy = REFLEX_AGENT;
+                changeStrategyType(&Constants::strategyTypeEnemy, optarg);
                 if (!quiet) cout << "Strategy Enemy : " << optarg << "\n";
                 break;
         }
@@ -182,4 +179,10 @@ void usage(char * name){
          << "  " << name << " -P reflex -E human" << endl
          << endl;
     exit(EXIT_SUCCESS);
+}
+
+void changeStrategyType(StrategyType * strategy, char * optarg){
+    if (strcmp("human", optarg) == 0) (*strategy) = HUMAN_AGENT;
+    else if (strcmp("random", optarg) == 0) (*strategy) = RANDOM_AGENT;
+    else if (strcmp("reflex", optarg) == 0) (*strategy) = REFLEX_AGENT;
 }
