@@ -20,6 +20,7 @@ public:
     void move(Player * player);
     void startGame();
     void pause();
+    void changePlayerAI(PlayerID playerId, StrategyType type);
 
 private:
     Player * createPlayer(PlayerID player, char * name, StrategyType type);

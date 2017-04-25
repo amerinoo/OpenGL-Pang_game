@@ -35,7 +35,7 @@ void PangScenario::winner(){
     else if (characters[PLAYER_1]->getScore() < characters[PLAYER_2]->getScore()) characters[PLAYER_2]->addWin();
 }
 
-void PangScenario::printScores(float width, float height, int i, char * name){
+void PangScenario::printScores(float width, float height, int i, char * name, char * strategyType){
     ostringstream text;
     Character * player = characters[i];
 
@@ -43,11 +43,12 @@ void PangScenario::printScores(float width, float height, int i, char * name){
     text << " score: " << player->getScore();
     text << " lives: " << player->getLives();
     text << " wins: " << player->getWins();
+    text << " strategy: " << strategyType;
     printText(width, height, text.str());
 }
 
 void PangScenario::printText(float width, float height, string str){
-    glColor3f(0, 0, 0);
+    glColor3f(1, 1, 1);
     glRasterPos2f(width, height);
     for (unsigned int i = 0; i < str.size(); i++) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[i]);

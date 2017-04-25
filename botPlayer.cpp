@@ -7,8 +7,8 @@
 
 BotPlayer::BotPlayer(){ }
 
-BotPlayer::BotPlayer(const char * name, PlayerID playerNumber, AI * ai)
-    : Player(name, playerNumber, true), ai(ai){ }
+BotPlayer::BotPlayer(const char * name, PlayerID playerNumber, StrategyType strategyType, AI * ai)
+    : Player(name, playerNumber, true, strategyType), ai(ai){ }
 
 bool BotPlayer::getMovement(PangScenario * ps, Action * move){
     return ai->computeMove(ps, playerNumber, move);

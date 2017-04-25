@@ -12,7 +12,7 @@
 class BotPlayer : public Player {
 public:
     BotPlayer();
-    BotPlayer(const char * name, PlayerID playerNumber, AI * ai);
+    BotPlayer(const char * name, PlayerID playerNumber, StrategyType strategyType, AI * ai);
     bool getMovement(PangScenario * ps, Action * move);
 private:
     AI * ai;

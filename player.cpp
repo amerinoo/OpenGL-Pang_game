@@ -7,8 +7,8 @@
 
 Player::Player(){ }
 
-Player::Player(const char * namee, PlayerID playerNumber, bool AIcontrolled)
-    : playerNumber(playerNumber), AIcontrolled(AIcontrolled){
+Player::Player(const char * namee, PlayerID playerNumber, bool AIcontrolled, StrategyType strategyType)
+    : playerNumber(playerNumber), AIcontrolled(AIcontrolled), strategyType(strategyType){
     strncpy(name, namee, MAX_LENGHT);
 }
 
@@ -17,3 +17,17 @@ char * Player::getPlayerName(){ return name; }
 PlayerID Player::getPlayerNumber(){ return playerNumber; }
 
 bool Player::isAIControlled(){ return AIcontrolled; }
+
+char * Player::getStrategyTypeName(){
+    switch (strategyType) {
+        case HUMAN_AGENT:
+            return (char *) "Human";
+
+        case RANDOM_AGENT:
+            return (char *) "Random";
+
+        case REFLEX_AGENT:
+            return (char *) "Reflex";
+    }
+    return (char *) "";
+}

@@ -24,7 +24,7 @@ public:
     PangScenario(Plane left, Plane right, Plane bottom, int width, int height);
     void reset();
     void winner();
-    void printScores(float width, float height, int i, char * name);
+    void printScores(float width, float height, int i, char * name, char * strategyType);
     void printText(float width, float height, string str);
     void resetCharacter(int character);
     void integrate(double t);

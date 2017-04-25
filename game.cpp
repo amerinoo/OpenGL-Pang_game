@@ -39,18 +39,24 @@ void Game::startGame(){
 void Game::printScores(float width, float height, int i){
     Player * player = (i == 0) ? player1 : player2;
 
-    pangScenario->printScores(width, height, i, player->getPlayerName());
+    pangScenario->printScores(width, height, i, player->getPlayerName(), player->getStrategyTypeName());
 }
 
 void Game::pause(){
     playing = !playing;
 }
 
+void Game::changePlayerAI(PlayerID playerId, StrategyType type){
+    if (playerId == PLAYER_1) player1 = createPlayer(playerId, player1->getPlayerName(), type);
+    else player2 = createPlayer(playerId, player2->getPlayerName(), type);
+    pangScenario->move(playerId, STOP);
+}
+
 Player * Game::createPlayer(PlayerID player, char * name, StrategyType type){
     AI * ai = chooseAgent(type, name);
 
-    if (ai == NULL) return new HumanPlayer(name, player);
-    else return new BotPlayer(name, player, ai);
+    if (ai == NULL) return new HumanPlayer(name, player, type);
+    else return new BotPlayer(name, player, type, ai);
 }
 
 AI * Game::chooseAgent(StrategyType type, char * name){

@@ -104,7 +104,7 @@ void display(){
     game.printScores(1, Constants::DEFAULT_HEIGHT * 0.9, 1);
 
     glutSwapBuffers();
-}
+} // display
 
 void keyboard(unsigned char c, int x, int y){
     c = tolower(c); // Prevent upper case
@@ -135,9 +135,27 @@ void special(int key, int x, int y){
         case GLUT_KEY_RIGHT:
             game.getPangScenario()->move(PLAYER_1, RIGHT);
             break;
+        case GLUT_KEY_F1:
+            game.changePlayerAI(PLAYER_2, HUMAN_AGENT);
+            break;
+        case GLUT_KEY_F2:
+            game.changePlayerAI(PLAYER_2, RANDOM_AGENT);
+            break;
+        case GLUT_KEY_F3:
+            game.changePlayerAI(PLAYER_2, REFLEX_AGENT);
+            break;
+        case GLUT_KEY_F9:
+            game.changePlayerAI(PLAYER_1, HUMAN_AGENT);
+            break;
+        case GLUT_KEY_F10:
+            game.changePlayerAI(PLAYER_1, RANDOM_AGENT);
+            break;
+        case GLUT_KEY_F11:
+            game.changePlayerAI(PLAYER_1, REFLEX_AGENT);
+            break;
     }
     glutPostRedisplay();
-}
+} // special
 
 void specialUp(int key, int x, int y){
     switch (key) {
@@ -177,9 +195,10 @@ void usage(char * name){
          << "  -P  --player            Select player strategy (Default Human)" << endl
          << "  -E  --enemy             Select enemy strategy  (Default Reflex)" << endl
          << "  Options:" << endl
-         << "    · human" << endl
-         << "    · random" << endl
-         << "    · reflex" << endl
+         << "    · human (F9 / F1)" << endl
+         << "    · random (F10 / F2)" << endl
+         << "    · reflex (F11 / F3)" << endl
+         << "You can change the strategy dynamically using the F# shortcuts (player / enemy)" << endl
          << "\nAgent name options:" << endl
          << "  -p  --player_name       Change player name (Default Player 1)" << endl
          << "  -e  --enemy_name        Change enemy name  (Default Player 2)" << endl
