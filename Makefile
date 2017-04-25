@@ -24,10 +24,13 @@ HFILES = vector3.h particle.h ball.h color.h forceGenerator.h \
 # The build target executable:
 TARGET = pang_game
 
-ALL : $(TARGET)
+ALL : $(TARGET)  run
 
 $(TARGET): $(CFILES) $(HFILES)
 	$(CC) $(CFILES) -o $(TARGET) $(CFLAGS) $(OPTS)
+
+run:
+	./$(TARGET)
 
 clean:
 	$(RM) $(TARGET)
