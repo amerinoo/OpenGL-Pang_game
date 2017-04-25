@@ -6,10 +6,12 @@
 #include <iostream>
 #include <getopt.h>
 #include <GL/glut.h>
+#include <irrKlang.h>
+#include "conio.h"
 #include "game.h"
 #include "constants.h"
-using namespace std;
 #include "png_texture.h"
+using namespace irrklang;
 
 void display();
 void keyboard(unsigned char c, int x, int y);
@@ -41,11 +43,12 @@ int main(int argc, char * argv[]){
         { "player_name", required_argument, 0, 'p' },
         { "enemy_name",  required_argument, 0, 'e' },
         { "background",  required_argument, 0, 'b' },
+        { "music",       no_argument,       0, 'm' },
         { NULL,                          0, 0,   0 }
     };
 
     while (1) {
-        opt = getopt_long(argc, argv, "hP:E:p:e:b:",
+        opt = getopt_long(argc, argv, "hP:E:p:e:b:m",
           loptions, &option_index);
         if (opt == -1) break;
         switch (opt) {
@@ -67,6 +70,15 @@ int main(int argc, char * argv[]){
                 break;
             case 'b':
                 changeBackground(optarg);
+                break;
+            case 'm':
+                ISoundEngine * engine = createIrrKlangDevice();
+                if (engine) {
+                    engine->play2D("songs/song.ogg", true);
+                    Constants::background = (char *) "images/miku.png";
+                } else {
+                    std::cout << "Could not startup engine" << '\n';
+                }
                 break;
         }
     }
@@ -219,6 +231,8 @@ void usage(char * name){
          << "    · beach" << endl
          << "    · miku" << endl
          << "    · mario" << endl
+         << "\nBackground options:" << endl
+         << "  -m  --music             Activate music during the game" << endl
          << "" << endl
          << "Note: Order is not important." << endl
          << "Examples:" << endl
@@ -227,7 +241,7 @@ void usage(char * name){
          << "  " << name << " -e Merino" << endl
          << endl;
     exit(EXIT_SUCCESS);
-}
+} // usage
 
 void changeStrategyType(StrategyType * strategy, char * optarg){
     if (strcmp("human", optarg) == 0) (*strategy) = HUMAN_AGENT;

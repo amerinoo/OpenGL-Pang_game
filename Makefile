@@ -7,6 +7,7 @@ CC = g++
 
 # Compiler flags:
 CFLAGS = -Wall -lglut -lGLU -lGL -lm -lpng
+OPTS =  -I "include" -L"/usr/lib" bin/linux-gcc-64/libIrrKlang.so -pthread
 
 # Files to compile
 CFILES = main.cpp vector3.cpp particle.cpp ball.cpp color.cpp forceGenerator.cpp \
@@ -26,7 +27,7 @@ TARGET = pang_game
 ALL : $(TARGET)
 
 $(TARGET): $(CFILES) $(HFILES)
-	$(CC) $(CFILES) -o $(TARGET) $(CFLAGS)
+	$(CC) $(CFILES) -o $(TARGET) $(CFLAGS) $(OPTS)
 
 clean:
 	$(RM) $(TARGET)
