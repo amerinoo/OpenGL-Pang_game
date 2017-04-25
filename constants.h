@@ -19,9 +19,11 @@ public:
     static const int PIXELS_PER_METER   = 100; // pixels
     static const int VELOCITY_SEPARATOR = 2;
 
-    static const int DEFAULT_LIVES   = 3;
-    static const int TIME_IMMORTAL   = 1; // seconds
-    static const int CHARACTER_SPEED = 4;
+    static const int DEFAULT_LIVES           = 3;
+    static const int TIME_IMMORTAL           = 1; // seconds
+    static const int CHARACTER_SPEED         = 4;
+    static const double CHARACTER_BASE_WIDTH = 0.5; // meters
+    static const double CHARACTER_HEIGHT     = 1;   // meters
 
     static const int BIG_BALL_POINTS    = 100;
     static const int MEDIUM_BALL_POINTS = 50;
