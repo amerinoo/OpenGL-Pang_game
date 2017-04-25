@@ -16,7 +16,7 @@ Plane::Plane(Vector3 vector, Vector3 point){
 }
 
 double Plane::getDistance(Vector3 point){
-    return fabs(a * point.getX() + b * point.getY() + c * point.getZ() + d) / sqrt(a * a + b * b + c * c);
+    return (a * point.getX() + b * point.getY() + c * point.getZ() + d) / sqrt(a * a + b * b + c * c);
 }
 
 Vector3 Plane::getNormalVector(){
