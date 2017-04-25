@@ -9,8 +9,10 @@ PangScenario::PangScenario(){ }
 
 PangScenario::PangScenario(Plane left, Plane right, Plane bottom, int width, int height)
     : left(left), right(right), bottom(bottom), width(width), height(height){
-    characters.push_back(new Character(Vector3(width * 0.75, 0), 0.2, 0.3, Color::player1, PLAYER_1));
-    characters.push_back(new Character(Vector3(width * 0.25, 0), 0.2, 0.3, Color::player2, PLAYER_2));
+    characters.push_back(new Character(Vector3(width * 0.75, 0),
+          Constants::CHARACTER_BASE_WIDTH, Constants::CHARACTER_HEIGHT, Color::player1, PLAYER_1));
+    characters.push_back(new Character(Vector3(width * 0.25, 0),
+          Constants::CHARACTER_BASE_WIDTH, Constants::CHARACTER_HEIGHT, Color::player2, PLAYER_2));
     reset();
 }
 
