@@ -151,10 +151,27 @@ void PangScenario::checkColBallBall(Ball * ball, int i){
 }
 
 void PangScenario::draw(){
+    drawBackground();
     for (unsigned int i = 0; i < balls.size(); i++)
         balls[i]->draw();
     for (unsigned int i = 0; i < characters.size(); i++)
         characters[i]->draw();
+}
+
+void PangScenario::drawBackground(){
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, BACKGROUND);
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3i(0, 0, 0);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3i(Constants::DEFAULT_WIDTH, 0, 0);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3i(Constants::DEFAULT_WIDTH, Constants::DEFAULT_HEIGHT, 0);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3i(0, Constants::DEFAULT_HEIGHT, 0);
+    glEnd();
+    glDisable(GL_TEXTURE_2D);
 }
 
 void PangScenario::shoot(PlayerID id){ characters[id]->shoot(); }

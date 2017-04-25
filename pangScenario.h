@@ -34,6 +34,7 @@ public:
     void checkColBulletBall(Ball * ball, Character * character, int i);
     void checkColBallBall(Ball * ball, int i);
     void draw();
+    void drawBackground();
     void shoot(PlayerID);
     void move(PlayerID, Action);
 

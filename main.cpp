@@ -9,6 +9,7 @@
 #include "game.h"
 #include "constants.h"
 using namespace std;
+#include "png_texture.h"
 
 void display();
 void keyboard(unsigned char c, int x, int y);
@@ -18,6 +19,7 @@ void specialUp(int key, int x, int y);
 void idle();
 void usage(char *);
 void changeStrategyType(StrategyType * strategy, char * optarg);
+void changeBackground(char * optarg);
 
 const char * windowTitle = "Pang game - Merino";
 
@@ -26,8 +28,9 @@ long last_t;
 
 StrategyType Constants::strategyTypePlayer = HUMAN_AGENT;
 StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
-char * Constants::player1Name = (char *) "Player 1";
-char * Constants::player2Name = (char *) "Player 2";
+char * Constants::player1Name = (char *) "Link";
+char * Constants::player2Name = (char *) "Mario";
+char * Constants::background  = (char *) "images/mario_world.png";
 int main(int argc, char * argv[]){
     /* parse options */
     int option_index = 0, opt;
@@ -37,11 +40,12 @@ int main(int argc, char * argv[]){
         { "enemy",       required_argument, 0, 'E' },
         { "player_name", required_argument, 0, 'p' },
         { "enemy_name",  required_argument, 0, 'e' },
+        { "background",  required_argument, 0, 'b' },
         { NULL,                          0, 0,   0 }
     };
 
     while (1) {
-        opt = getopt_long(argc, argv, "hP:E:p:e:",
+        opt = getopt_long(argc, argv, "hP:E:p:e:b:",
           loptions, &option_index);
         if (opt == -1) break;
         switch (opt) {
@@ -60,6 +64,9 @@ int main(int argc, char * argv[]){
                 break;
             case 'e':
                 Constants::player2Name = optarg;
+                break;
+            case 'b':
+                changeBackground(optarg);
                 break;
         }
     }
@@ -88,6 +95,10 @@ int main(int argc, char * argv[]){
 
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0, Constants::DEFAULT_WIDTH, 0, Constants::DEFAULT_HEIGHT);
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    TextureLoader().loadTextures();
     glutMainLoop();
 
 
@@ -183,7 +194,6 @@ void idle(){
         last_t = t;
     }
 
-
     glutPostRedisplay();
 }
 
@@ -202,6 +212,13 @@ void usage(char * name){
          << "\nAgent name options:" << endl
          << "  -p  --player_name       Change player name (Default Player 1)" << endl
          << "  -e  --enemy_name        Change enemy name  (Default Player 2)" << endl
+         << "\nBackground options:" << endl
+         << "  -b  --background        Change background image (Default mountain)" << endl
+         << "  Options:" << endl
+         << "    · mountain" << endl
+         << "    · beach" << endl
+         << "    · miku" << endl
+         << "    · mario" << endl
          << "" << endl
          << "Note: Order is not important." << endl
          << "Examples:" << endl
@@ -216,4 +233,11 @@ void changeStrategyType(StrategyType * strategy, char * optarg){
     if (strcmp("human", optarg) == 0) (*strategy) = HUMAN_AGENT;
     else if (strcmp("random", optarg) == 0) (*strategy) = RANDOM_AGENT;
     else if (strcmp("reflex", optarg) == 0) (*strategy) = REFLEX_AGENT;
+}
+
+void changeBackground(char * optarg){
+    if (strcmp("mountain", optarg) == 0) Constants::background = (char *) "images/mountain.png";
+    else if (strcmp("beach", optarg) == 0) Constants::background = (char *) "images/beach.png";
+    else if (strcmp("miku", optarg) == 0) Constants::background = (char *) "images/miku.png";
+    else if (strcmp("mario", optarg) == 0) Constants::background = (char *) "images/mario_world.png";
 }

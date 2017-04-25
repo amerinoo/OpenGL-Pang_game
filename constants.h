@@ -39,6 +39,7 @@ public:
 
     static char * player1Name;
     static char * player2Name;
+    static char * background;
     static StrategyType strategyTypePlayer;
     static StrategyType strategyTypeEnemy;
 };
@@ -53,6 +54,11 @@ enum Action {
     STOP  = 0,
     RIGHT = 1,
     LEFT  = 2
+};
+enum Texture {
+    BACKGROUND,
+    MARIO,
+    LINK
 };
 
 #endif // ifndef enums_h
