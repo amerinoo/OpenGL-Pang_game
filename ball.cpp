@@ -60,11 +60,10 @@ double Ball::split(vector<Ball *> &balls, Ball * ball, ParticleContact * particl
         points = Constants::SMALL_BALL_POINTS;
     }
     if (radius != 0) {
-        double velocitySeparator = 5;
         balls.push_back(new Ball(ball->getPosition() + contactNormalRotated * radius,
-              ball->getVelocity() + contactNormalRotated * velocitySeparator, radius, Color::ball));
+              ball->getVelocity() + contactNormalRotated * Constants::VELOCITY_SEPARATOR, radius, Color::ball));
         balls.push_back(new Ball(ball->getPosition() - contactNormalRotated * radius,
-              ball->getVelocity() - contactNormalRotated * velocitySeparator, radius, Color::ball));
+              ball->getVelocity() - contactNormalRotated * Constants::VELOCITY_SEPARATOR, radius, Color::ball));
     }
     return points;
 }

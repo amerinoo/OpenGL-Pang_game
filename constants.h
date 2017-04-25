@@ -14,9 +14,10 @@ enum StrategyType {
 
 class Constants {
 public:
-    static const int DEFAULT_WIDTH    = 16;  // meters
-    static const int DEFAULT_HEIGHT   = 8;   // meters
-    static const int PIXELS_PER_METER = 100; // pixels
+    static const int DEFAULT_WIDTH      = 16;  // meters
+    static const int DEFAULT_HEIGHT     = 8;   // meters
+    static const int PIXELS_PER_METER   = 100; // pixels
+    static const int VELOCITY_SEPARATOR = 2;
 
     static const int DEFAULT_LIVES   = 3;
     static const int TIME_IMMORTAL   = 1; // seconds
