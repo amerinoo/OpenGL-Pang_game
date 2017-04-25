@@ -10,11 +10,14 @@ TextureLoader::TextureLoader(){ }
 // Methods
 void TextureLoader::loadTextures(){
     png_texture_load(Constants::background, BACKGROUND);
-    png_texture_load("images/mario_stand.png", MARIO);
-    png_texture_load("images/link_stand.png", LINK);
+    png_texture_load("images/mario_stop.png", MARIO_STOP);
+    png_texture_load("images/mario_right.png", MARIO_RIGHT);
+    png_texture_load("images/mario_left.png", MARIO_LEFT);
+    png_texture_load("images/link_stop.png", LINK_STOP);
+    png_texture_load("images/link_right.png", LINK_RIGHT);
+    png_texture_load("images/link_left.png", LINK_LEFT);
 }
 
-#include <iostream>
 void TextureLoader::png_texture_load(const char * file_name, Texture texture, int * width, int * height){
     // This function was originally written by David Grayson for
     // https://github.com/DavidEGrayson/ahrs-visualizer

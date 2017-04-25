@@ -14,7 +14,7 @@ bool AI::computeMove(PangScenario * ps, PlayerID playerNumber, Action * move){
     double separation     = position.getX() - targetPosition;
 
     (*move) = (separation > 0) ? LEFT : RIGHT;
-    if (fabs(separation) < Constants::EPSILON) {
+    if (fabs(separation) <= Constants::EPSILON) {
         targetPosition = getRandomTargetPosition();
         (*move)        = STOP;
     }

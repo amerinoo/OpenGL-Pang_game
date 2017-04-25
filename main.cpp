@@ -30,9 +30,11 @@ long last_t;
 
 StrategyType Constants::strategyTypePlayer = HUMAN_AGENT;
 StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
-char * Constants::player1Name = (char *) "Link";
-char * Constants::player2Name = (char *) "Mario";
-char * Constants::background  = (char *) "images/mario_world.png";
+char * Constants::player1Name       = (char *) "Link";
+char * Constants::player2Name       = (char *) "Mario";
+char * Constants::background        = (char *) "images/mario_world.png";
+Texture Constants::marioTextures[3] = { MARIO_STOP, MARIO_RIGHT, MARIO_LEFT };
+Texture Constants::linkTextures[3] = { LINK_STOP, LINK_RIGHT, LINK_LEFT };
 int main(int argc, char * argv[]){
     /* parse options */
     int option_index = 0, opt;
@@ -222,8 +224,8 @@ void usage(char * name){
          << "    · reflex (F11 / F3)" << endl
          << "You can change the strategy dynamically using the F# shortcuts (player / enemy)" << endl
          << "\nAgent name options:" << endl
-         << "  -p  --player_name       Change player name (Default Player 1)" << endl
-         << "  -e  --enemy_name        Change enemy name  (Default Player 2)" << endl
+         << "  -p  --player_name       Change player name (Default Link)" << endl
+         << "  -e  --enemy_name        Change enemy name  (Default Mario)" << endl
          << "\nBackground options:" << endl
          << "  -b  --background        Change background image (Default mountain)" << endl
          << "  Options:" << endl

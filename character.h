@@ -21,8 +21,8 @@ public:
     void integrate(double time);
     void draw();
     void stop();
-    void moveLeft(double speed);
     void moveRight(double speed);
+    void moveLeft(double speed);
     void shoot(double time = 2);
     bool hasBullet();
     void removeBullet();
@@ -51,5 +51,7 @@ private:
     int playerNumber;
     bool isImmortal;
     double timeImmortal;
+    Texture * textures;
+    int textureSelected;
 };
 #endif // ifndef character_h

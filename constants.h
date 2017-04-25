@@ -12,6 +12,16 @@ enum StrategyType {
     REFLEX_AGENT
 };
 
+enum Texture {
+    BACKGROUND,
+    MARIO_STOP,
+    MARIO_RIGHT,
+    MARIO_LEFT,
+    LINK_STOP,
+    LINK_RIGHT,
+    LINK_LEFT
+};
+
 class Constants {
 public:
     static const int DEFAULT_WIDTH      = 16;  // meters
@@ -35,8 +45,8 @@ public:
     static const double MEDIUM_BALL_SIZE = 0.4; // meters
     static const double BIG_BALL_SIZE    = 0.8; // meters
 
-    static const double EPSILON         = 0.2; // meters
-    static const double SAFETY_DISTANCE = 2.5; // meters
+    static const double EPSILON         = 0.25; // meters
+    static const double SAFETY_DISTANCE = 2.5;  // meters
     static const double CONE_WIDTH      = 0.5;
 
     static char * player1Name;
@@ -44,6 +54,9 @@ public:
     static char * background;
     static StrategyType strategyTypePlayer;
     static StrategyType strategyTypeEnemy;
+
+    static Texture marioTextures[3];
+    static Texture linkTextures[3];
 };
 
 enum PlayerID {
@@ -56,11 +69,6 @@ enum Action {
     STOP  = 0,
     RIGHT = 1,
     LEFT  = 2
-};
-enum Texture {
-    BACKGROUND,
-    MARIO,
-    LINK
 };
 
 #endif // ifndef enums_h
