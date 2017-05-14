@@ -17,6 +17,7 @@ public:
     PangScenario * getPangScenario();
     void printScores(float width, float height, int i);
     void integrate(double t);
+    void draw();
     void move(Player * player);
     void startGame();
     void pause();
@@ -30,5 +31,7 @@ private:
     Player * player1;
     Player * player2;
     bool playing;
+    bool simulate;
+    vector<PangScenario *> pangScenarios;
 };
 #endif // ifndef game_h

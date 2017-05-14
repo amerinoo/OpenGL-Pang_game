@@ -16,15 +16,16 @@ class Character : public Particle {
 public:
     Character();
     Character(Vector3 position, double baseWidth, double height, Color color, int playerNumber);
+    Character(const Character &c);
     void setDimensions(double baseWidth, double height);
     void setColor(Color color);
     void integrate(double time);
-    void draw();
+    void draw(int simulation = -1);
     void stop();
     void moveRight(double speed);
     void moveLeft(double speed);
     void shoot(double time = 2);
-    bool hasBullet();
+    bool hasBullet() const;
     void removeBullet();
     int getScore();
     void addScore(int score);

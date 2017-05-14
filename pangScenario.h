@@ -22,6 +22,7 @@ class PangScenario {
 public:
     PangScenario();
     PangScenario(Plane left, Plane right, Plane bottom, int width, int height);
+    PangScenario(const PangScenario &ps);
     void reset();
     void winner();
     void printScores(float width, float height, int i, char * name, char * strategyType);
@@ -33,7 +34,7 @@ public:
     void checkColBallPlane(Ball * ball, Plane plane);
     void checkColBulletBall(Ball * ball, Character * character, int i);
     void checkColBallBall(Ball * ball, int i);
-    void draw();
+    void draw(int simulate = -1);
     void drawBackground();
     void shoot(PlayerID);
     void move(PlayerID, Action);

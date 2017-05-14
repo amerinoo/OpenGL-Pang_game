@@ -28,7 +28,7 @@ const char * windowTitle = "Pang game - Merino";
 Game game;
 long last_t;
 
-StrategyType Constants::strategyTypePlayer = HUMAN_AGENT;
+StrategyType Constants::strategyTypePlayer = RANDOM_AGENT;
 StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
 char * Constants::player1Name       = (char *) "Link";
 char * Constants::player2Name       = (char *) "Mario";
@@ -124,7 +124,7 @@ void display(){
       Color::background.blue, Color::background.alpha);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    game.getPangScenario()->draw();
+    game.draw();
     game.printScores(1, Constants::DEFAULT_HEIGHT * 0.95, 0);
     game.printScores(1, Constants::DEFAULT_HEIGHT * 0.9, 1);
 

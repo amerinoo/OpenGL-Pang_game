@@ -7,8 +7,8 @@
 
 Player::Player(){ }
 
-Player::Player(const char * namee, PlayerID playerNumber, bool AIcontrolled, StrategyType strategyType)
-    : playerNumber(playerNumber), AIcontrolled(AIcontrolled), strategyType(strategyType){
+Player::Player(const char * namee, PlayerID playerNumber, bool AIcontrolled, StrategyType strategyType, AI * ai)
+    : playerNumber(playerNumber), AIcontrolled(AIcontrolled), strategyType(strategyType), ai(ai){
     strncpy(name, namee, MAX_LENGHT);
 }
 

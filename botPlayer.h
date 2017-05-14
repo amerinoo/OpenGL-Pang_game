@@ -14,7 +14,5 @@ public:
     BotPlayer();
     BotPlayer(const char * name, PlayerID playerNumber, StrategyType strategyType, AI * ai);
     bool getMovement(PangScenario * ps, Action * move);
-private:
-    AI * ai;
 };
 #endif // ifndef bot_player_h

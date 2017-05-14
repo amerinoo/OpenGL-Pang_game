@@ -18,12 +18,13 @@ void Ball::setRadius(double radius){ this->radius = radius; }
 
 void Ball::setColor(Color color){ this->color = color; }
 
-void Ball::draw(){
+void Ball::draw(int simulate){
     int segments = 20;
 
     glPushMatrix();
 
-    glColor3f(color.red, color.green, color.blue);
+    if (simulate == -1) glColor3f(color.red, color.green, color.blue);
+    else glColor3f(0, simulate * 0.2, 0);
 
     glBegin(GL_TRIANGLE_FAN);
     glVertex2f(position.getX(), position.getY());

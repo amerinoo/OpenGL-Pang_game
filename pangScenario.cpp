@@ -16,11 +16,18 @@ PangScenario::PangScenario(Plane left, Plane right, Plane bottom, int width, int
     reset();
 }
 
+PangScenario::PangScenario(const PangScenario &ps)
+    : left(ps.left), right(ps.right), bottom(ps.bottom), width(ps.width), height(ps.height){
+    for (unsigned int i = 0; i < ps.balls.size(); i++) balls.push_back(new Ball(*ps.balls[i]));
+    for (unsigned int i = 0; i < ps.characters.size(); i++) characters.push_back(new Character(*ps.characters[i]));
+}
+
 void PangScenario::reset(){
     balls.clear();
     float wPos      = (rand() % 100) / 100.0;
     float wOtherPos = 1 - wPos;
     float hPos      = (rand() % 50 + 50) / 100.0;
+
     balls.push_back(new Ball(Vector3(width * wPos, height * hPos),
           Vector3(3, 0), Constants::BIG_BALL_SIZE, Color::ball));
     balls.push_back(new Ball(Vector3(width * wOtherPos, height * hPos),
@@ -132,6 +139,7 @@ void PangScenario::checkColBulletBall(Ball * ball, Character * character, int i)
             character->removeBullet();
             ball = NULL;
             if (balls.size() == 0) {
+                std::cout << "Game ends" << '\n';
                 character->addScore(points + Constants::LAST_BALL_POINTS);
                 winner();
                 reset();
@@ -152,12 +160,12 @@ void PangScenario::checkColBallBall(Ball * ball, int i){
     }
 }
 
-void PangScenario::draw(){
-    drawBackground();
+void PangScenario::draw(int simulate){
+    if (simulate == -1) drawBackground();
     for (unsigned int i = 0; i < balls.size(); i++)
-        balls[i]->draw();
+        balls[i]->draw(simulate);
     for (unsigned int i = 0; i < characters.size(); i++)
-        characters[i]->draw();
+        characters[i]->draw(simulate);
 }
 
 void PangScenario::drawBackground(){

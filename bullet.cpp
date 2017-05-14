@@ -8,7 +8,9 @@
 Bullet::Bullet() : Ball(){ }
 
 Bullet::Bullet(Vector3 position, Vector3 velocity, Color color, double ttl)
-    : Ball(position, velocity, 0.1, color), ttl(ttl){ }
+    : Ball(position, velocity, Constants::BULLET_SIZE, color), ttl(ttl){ }
+
+Bullet::Bullet(const Bullet &b) : Ball(b), ttl(b.ttl){ }
 
 void Bullet::integrate(double t){
     Ball::integrate(t);

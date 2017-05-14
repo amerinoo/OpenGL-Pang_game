@@ -16,9 +16,31 @@ PangScenario * Game::getPangScenario(){ return pangScenario; }
 
 void Game::integrate(double t){
     if (playing) {
+        simulate = true;
         pangScenario->integrate(t);
         move(player1);
         move(player2);
+    } else {
+        if (simulate) {
+            pangScenarios.clear();
+            PangScenario * p;
+            float simus[] = { 0.1, 0.25, 0.5, 0.75, 1.0 };
+            for (int i = 0; i < 5; i++) {
+                p = new PangScenario(*pangScenario);
+                player1->ai->simulateMove(p, simus[i]);
+                pangScenarios.push_back(p);
+            }
+            simulate = false;
+        }
+    }
+}
+
+void Game::draw(){
+    pangScenario->draw();
+    if (!playing) {
+        for (unsigned int i = 0; i < pangScenarios.size(); i++) {
+            pangScenarios[i]->draw(i);
+        }
     }
 }
 

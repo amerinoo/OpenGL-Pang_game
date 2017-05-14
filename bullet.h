@@ -12,6 +12,7 @@ class Bullet : public Ball {
 public:
     Bullet();
     Bullet(Vector3 position, Vector3 velocity, Color color, double ttl);
+    Bullet(const Bullet &b);
 
     void integrate(double t);
     bool hasTTL(double time);

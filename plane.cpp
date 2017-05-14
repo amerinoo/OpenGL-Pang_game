@@ -22,3 +22,5 @@ double Plane::getDistance(Vector3 point){
 Vector3 Plane::getNormalVector(){
     return Vector3(a, b, c);
 }
+
+double Plane::getX(){ return -d / a; }

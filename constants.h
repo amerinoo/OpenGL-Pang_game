@@ -33,7 +33,7 @@ public:
     static const int TIME_IMMORTAL           = 1; // seconds
     static const int CHARACTER_SPEED         = 4;
     static const double CHARACTER_BASE_WIDTH = 0.5; // meters
-    static const double CHARACTER_HEIGHT     = 1;   // meters
+    static const double CHARACTER_HEIGHT     = 0.8; // meters
 
     static const int BIG_BALL_POINTS    = 100;
     static const int MEDIUM_BALL_POINTS = 50;
@@ -41,6 +41,8 @@ public:
     static const int LAST_BALL_POINTS   = 100;
     static const int HIT_PUNISHMENT     = 20;
 
+    static const double BULLET_MASS      = 0.0042;
+    static const double BULLET_SIZE      = 0.1; // meters
     static const double SMALL_BALL_SIZE  = 0.2; // meters
     static const double MEDIUM_BALL_SIZE = 0.4; // meters
     static const double BIG_BALL_SIZE    = 0.8; // meters

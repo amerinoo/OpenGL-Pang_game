@@ -16,6 +16,13 @@ Character::Character(Vector3 position, double baseWidth, double height, Color co
     stop();
 }
 
+Character::Character(const Character &c) : Particle(c), baseWidth(c.baseWidth),
+    height(c.height), color(c.color), score(c.score),
+    lives(c.lives), wins(c.wins), playerNumber(c.playerNumber), isImmortal(c.isImmortal),
+    textureSelected(c.textureSelected){
+    bullet = (c.hasBullet()) ? new Bullet(*c.bullet) : NULL;
+}
+
 void Character::setDimensions(double baseWidth, double height){
     this->baseWidth = baseWidth;
     this->height    = height;
@@ -37,27 +44,46 @@ void Character::integrate(double time){
 
 int Character::getPlayerNumber(){ return playerNumber; }
 
-void Character::draw(){
+void Character::draw(int simulation){
     if (hasLives()) {
         double subPos = baseWidth / 2.0;
-
-        glPushMatrix();
-        glEnable(GL_TEXTURE_2D);
-        glBindTexture(GL_TEXTURE_2D, textures[textureSelected]);
-        glBegin(GL_QUADS);
-        glTexCoord2f(0.0, 0.0);
-        glVertex3f(position.getX() - subPos, position.getY(), position.getZ());
-        glTexCoord2f(0.0, 1.0);
-        glVertex3f(position.getX() - subPos, position.getY() + height / 2.0, position.getZ());
-        glTexCoord2f(1.0, 1.0);
-        glVertex3f(position.getX() + subPos, position.getY() + height / 2.0, position.getZ());
-        glTexCoord2f(1.0, 0.0);
-        glVertex3f(position.getX() + subPos, position.getY(), position.getZ());
-        glEnd();
-        glDisable(GL_TEXTURE_2D);
-        glPopMatrix();
-        if (bullet != NULL) bullet->draw(); }
-}
+        if (simulation != -1) {
+            glPushMatrix();
+            double red, blue;
+            if (playerNumber == 1) {
+                red  = simulation * 0.2;
+                blue = 0;
+            } else {
+                red  = 0;
+                blue = simulation * 0.2;
+            }
+            glColor3f(red, 0, blue);
+            glBegin(GL_TRIANGLES);
+            glVertex2f(position.getX(), height);
+            glVertex2f(position.getX() + subPos, 0);
+            glVertex2f(position.getX() - subPos, 0);
+            glEnd();
+            glPopMatrix();
+        } else {
+            glPushMatrix();
+            glEnable(GL_TEXTURE_2D);
+            glBindTexture(GL_TEXTURE_2D, textures[textureSelected]);
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.0, 0.0);
+            glVertex3f(position.getX() - subPos, position.getY(), position.getZ());
+            glTexCoord2f(0.0, 1.0);
+            glVertex3f(position.getX() - subPos, position.getY() + height / 2.0, position.getZ());
+            glTexCoord2f(1.0, 1.0);
+            glVertex3f(position.getX() + subPos, position.getY() + height / 2.0, position.getZ());
+            glTexCoord2f(1.0, 0.0);
+            glVertex3f(position.getX() + subPos, position.getY(), position.getZ());
+            glEnd();
+            glDisable(GL_TEXTURE_2D);
+            glPopMatrix();
+        }
+        if (bullet != NULL) bullet->draw(simulation);
+    }
+} // draw
 
 void Character::stop(){
     velocity        = Vector3();
@@ -78,7 +104,7 @@ void Character::shoot(double time){
     if (!hasBullet() && hasLives()) bullet = new Bullet(position + Vector3(0, height), Vector3(0, 4), color, time);
 }
 
-bool Character::hasBullet(){ return bullet != NULL; }
+bool Character::hasBullet() const { return bullet != NULL; }
 
 void Character::removeBullet(){ bullet = NULL; }
 
@@ -110,5 +136,5 @@ void Character::addWin(){ wins += 1; }
 Bullet * Character::getBullet(){ return bullet; }
 
 Ball * Character::getMargin(){
-    return new Ball(position + Vector3(0, height / 2.0), Vector3(), baseWidth / 2.0, Color::ball);
+    return new Ball(position + Vector3(0, height / 2.0), velocity, baseWidth / 2.0, Color::ball);
 }

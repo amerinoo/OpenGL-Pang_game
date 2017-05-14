@@ -8,6 +8,6 @@
 HumanPlayer::HumanPlayer(){ }
 
 HumanPlayer::HumanPlayer(const char * name, PlayerID playerNumber, StrategyType strategyType)
-    : Player(name, playerNumber, false, strategyType){ }
+    : Player(name, playerNumber, false, strategyType, new NullAI()){ }
 
 bool HumanPlayer::getMovement(PangScenario * ps, Action * move){ return false; }

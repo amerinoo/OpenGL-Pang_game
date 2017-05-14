@@ -26,7 +26,7 @@ public:
     void setRadius(double radius);
     void setColor(Color color);
 
-    void draw();
+    void draw(int simulate = -1);
     double calculateMass(double radius);
     double split(vector<Ball *> &balls, Ball * ball, ParticleContact * particleContactBall);
 private:

@@ -14,6 +14,7 @@ public:
     Plane(Vector3 vector, Vector3 point);
     double getDistance(Vector3 point);
     Vector3 getNormalVector();
+    double getX();
 
 private:
     double a;
