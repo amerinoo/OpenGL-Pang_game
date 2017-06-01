@@ -8,4 +8,5 @@
 #include "reflexAgentAI.h"
 #include "nullAI.h"
 #include "heuristicAI.h"
+#include "alphaBetaAI.h"
 #endif // ifndef ais_h

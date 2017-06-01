@@ -29,7 +29,7 @@ Game game;
 long last_t;
 
 StrategyType Constants::strategyTypePlayer = HEURISTIC_AGENT;
-StrategyType Constants::strategyTypeEnemy  = RANDOM_AGENT;
+StrategyType Constants::strategyTypeEnemy  = ALPHA_BETA_AGENT;
 char * Constants::player1Name       = (char *) "Link";
 char * Constants::player2Name       = (char *) "Mario";
 char * Constants::background        = (char *) "images/mario_world.png";
@@ -172,17 +172,23 @@ void special(int key, int x, int y){
         case GLUT_KEY_F4:
             game.changePlayerAI(PLAYER_2, HEURISTIC_AGENT);
             break;
+        case GLUT_KEY_F5:
+            game.changePlayerAI(PLAYER_2, ALPHA_BETA_AGENT);
+            break;
+        case GLUT_KEY_F8:
+            game.changePlayerAI(PLAYER_1, ALPHA_BETA_AGENT);
+            break;
         case GLUT_KEY_F9:
-            game.changePlayerAI(PLAYER_1, HUMAN_AGENT);
+            game.changePlayerAI(PLAYER_1, HEURISTIC_AGENT);
             break;
         case GLUT_KEY_F10:
-            game.changePlayerAI(PLAYER_1, RANDOM_AGENT);
-            break;
-        case GLUT_KEY_F11:
             game.changePlayerAI(PLAYER_1, REFLEX_AGENT);
             break;
+        case GLUT_KEY_F11:
+            game.changePlayerAI(PLAYER_1, RANDOM_AGENT);
+            break;
         case GLUT_KEY_F12:
-            game.changePlayerAI(PLAYER_1, HEURISTIC_AGENT);
+            game.changePlayerAI(PLAYER_1, HUMAN_AGENT);
             break;
     }
     glutPostRedisplay();
@@ -223,12 +229,13 @@ void usage(char * name){
          << "  -h, --help              Print this help message" << endl
          << "\nAgent options:" << endl
          << "  -P  --player            Select player strategy (Default Heuristic)" << endl
-         << "  -E  --enemy             Select enemy strategy  (Default Reflex)" << endl
+         << "  -E  --enemy             Select enemy strategy  (Default AlphaBeta)" << endl
          << "  Options:" << endl
-         << "    · human (F9 / F1)" << endl
-         << "    · random (F10 / F2)" << endl
-         << "    · reflex (F11 / F3)" << endl
-         << "    · heuristic (F12 / F4)" << endl
+         << "    · human (F12 / F1)" << endl
+         << "    · random (F11 / F2)" << endl
+         << "    · reflex (F10 / F3)" << endl
+         << "    · heuristic (F9 / F4)" << endl
+         << "    · alphabeta (F8 / F5)" << endl
          << "You can change the strategy dynamically using the F# shortcuts (player / enemy)" << endl
          << "\nAgent name options:" << endl
          << "  -p  --player_name       Change player name (Default Link)" << endl
@@ -257,6 +264,7 @@ void changeStrategyType(StrategyType * strategy, char * optarg){
     else if (strcmp("random", optarg) == 0) (*strategy) = RANDOM_AGENT;
     else if (strcmp("reflex", optarg) == 0) (*strategy) = REFLEX_AGENT;
     else if (strcmp("heuristic", optarg) == 0) (*strategy) = HEURISTIC_AGENT;
+    else if (strcmp("alphabeta", optarg) == 0) (*strategy) = HEURISTIC_AGENT;
 }
 
 void changeBackground(char * optarg){

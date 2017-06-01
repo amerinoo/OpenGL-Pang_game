@@ -10,7 +10,8 @@ enum StrategyType {
     HUMAN_AGENT,
     RANDOM_AGENT,
     REFLEX_AGENT,
-    HEURISTIC_AGENT
+    HEURISTIC_AGENT,
+    ALPHA_BETA_AGENT
 };
 
 enum Texture {

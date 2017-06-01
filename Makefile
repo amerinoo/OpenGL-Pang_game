@@ -14,14 +14,14 @@ CFILES = main.cpp vector3.cpp particle.cpp ball.cpp color.cpp forceGenerator.cpp
 		gravityForceGenerator.cpp plane.cpp particleContact.cpp ballPlaneColDetect.cpp \
 		pangScenario.cpp ballBallColDetect.cpp character.cpp bullet.cpp player.cpp \
 		humanPlayer.cpp game.cpp ai.cpp botPlayer.cpp reflexAgentAI.cpp png_texture.cpp \
-		nullAI.cpp heuristicAI.cpp
+		nullAI.cpp heuristicAI.cpp alphaBetaAI.cpp
 
 # Files' headers
 HFILES = vector3.h particle.h ball.h color.h forceGenerator.h \
 	gravityForceGenerator.h plane.h particleContact.h ballPlaneColDetect.h \
 	pangScenario.h ballBallColDetect.h character.h bullet.h player.h \
 	humanPlayer.h game.h constants.h ais.h ai.h botPlayer.h reflexAgentAI.h png_texture.h \
-	nullAI.h heuristicAI.h
+	nullAI.h heuristicAI.h alphaBetaAI.h
 
 # The build target executable:
 TARGET = pang_game
