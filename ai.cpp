@@ -22,6 +22,15 @@ bool AI::computeMove(PangScenario * ps, PlayerID playerNumber, Action * move){
     return !character->hasBullet();
 }
 
+double AI::heuristic(PangScenario * ps, PlayerID playerNumber){
+    double points = 0;
+
+    points += ps->characters[playerNumber]->getScore();
+    points += 10 * ps->characters[playerNumber]->getLives();
+
+    return points;
+}
+
 void AI::simulateMove(PangScenario * ps, float timeLimit){
     elapsedTime = 0;
 
@@ -32,15 +41,8 @@ void AI::simulateMove(PangScenario * ps, float timeLimit){
 
         for (unsigned int i = 0; i < ps->characters.size(); i++) {
             Character * character = ps->characters[i];
-            if (checkColBallPlaneVert(character->getMargin(), ps->left) ||
-              checkColBallPlaneVert(character->getMargin(), ps->right))
-            {
-                double x = character->getPosition().getX() + character->getVelocity().getX() * tZero;
-                double y = character->getPosition().getY();
-                character->setPosition(Vector3(x, y));
-                colDetect->resolve(character);
-                character->stop();
-            }
+            checkColCharPlaneVert(character, ps->left);
+            checkColCharPlaneVert(character, ps->right);
         }
 
         for (unsigned int i = 0; i < ps->balls.size(); i++) {
@@ -51,24 +53,8 @@ void AI::simulateMove(PangScenario * ps, float timeLimit){
             checkColBallPlaneHoriz(ball, ps->bottom);
             for (unsigned int j = 0; j < ps->characters.size(); j++) {
                 Character * character = ps->characters[j];
-                if (checkColBallBall(character->getMargin(), ball)) {
-                    character->substractLive();
-                    ps->resetCharacter(character->getPlayerNumber());
-                }
-                if (checkColBulletBall(ps, ball, character, i)) {
-                    double points = ball->split(ps->balls, ball, colDetect);
-
-                    ps->balls.erase(ps->balls.begin() + i);
-                    character->removeBullet();
-                    ball = NULL;
-                    if (ps->balls.size() == 0) {
-                        character->addScore(points + Constants::LAST_BALL_POINTS);
-                        // ps->winner();
-                        // ps->reset();
-                    } else {
-                        character->addScore(points);
-                    }
-                }
+                checkColCharBall(character, ball);
+                checkColBulletBall(ps, ball, character, i);
             }
             checkColBallBall(ps, ball, i);
         }
@@ -77,16 +63,47 @@ void AI::simulateMove(PangScenario * ps, float timeLimit){
             resolve(ps, timeLimit - elapsedTime);
             break;
         } else {
+            if (tZero < 0.02) tZero = 0.02;
             resolve(ps, tZero);
         }
+        switch (colType) {
+            case CHAR_PLANE:
+                // std::cout << "CHAR_PLANE" << '\n';
+                colDetect->resolve(chara);
+                chara->stop();
+                break;
+            case BALL_CHAR:
+                chara->substractLive();
+                // std::cout << "BALL_CHAR " << chara->getLives() << '\n';
+                ps->resetCharacter(chara->getPlayerNumber());
+                break;
+            case BALL_VERT:
+            case BALL_BALL:
+            case BALL_HORIZ:
+                // std::cout << "BALL" << '\n';
+                colDetect->resolve();
+                break;
+            case BALL_PROJ:
+                // std::cout << "BALL_PROJ" << '\n';
+                double points = balli->split(ps->balls, balli, colDetect);
 
-        colDetect->resolve();
+                ps->balls.erase(ps->balls.begin() + ballIndex);
+                chara->removeBullet();
+                if (ps->balls.size() == 0) {
+                    chara->addScore(points + Constants::LAST_BALL_POINTS);
+                    elapsedTime = timeLimit;
+                } else {
+                    chara->addScore(points);
+                }
+                break;
+        }
+        if (colDetect) delete(colDetect);
         elapsedTime += tZero;
     }
 } // simulateMove
 
 void AI::resolve(PangScenario * ps, float t){
-    double x, y;
+    double x, y, vx, vy;
 
     for (unsigned int i = 0; i < ps->characters.size(); i++) {
         Character * character = ps->characters[i];
@@ -101,19 +118,21 @@ void AI::resolve(PangScenario * ps, float t){
         }
     }
 
+
     for (unsigned int i = 0; i < ps->balls.size(); i++) {
         Ball * ball = ps->balls[i];
         x = ball->getPosition().getX() + ball->getVelocity().getX() * t;
         y = ball->getPosition().getY() + ball->getVelocity().getY() * t - 4.9 * t * t;
         ball->setPosition(Vector3(x, y));
+        vx = ball->getVelocity().getX();
+        vy = ball->getVelocity().getY() - 9.8 * t;
+        ball->setVelocity(Vector3(vx, vy));
     }
 }
 
-bool AI::checkColBallPlaneVert(Ball * ball, Plane plane){
-    bool ret = false;
-
+void AI::checkColBallPlaneVert(Ball * ball, Plane plane){
     if (ball->getVelocity().getX() != 0) {
-        double t = fabs((plane.getX() - ball->getPosition().getX()) / ball->getVelocity().getX());
+        double t = (plane.getX() - ball->getPosition().getX()) / ball->getVelocity().getX();
         if (t > 0 && t < tZero && t + elapsedTime < timeLimit) {
             double x = ball->getPosition().getX() + ball->getVelocity().getX() * t;
             double y = ball->getPosition().getY() + ball->getVelocity().getY() * t - 4.9 * t * t;
@@ -123,20 +142,42 @@ bool AI::checkColBallPlaneVert(Ball * ball, Plane plane){
             if (particleContact != NULL) {
                 tZero     = t;
                 colDetect = particleContact;
-                ret       = true;
+                colType   = BALL_VERT;
             }
         }
     }
-    return ret;
+}
+
+void AI::checkColCharPlaneVert(Character * character, Plane plane){
+    Ball * ball = character->getMargin();
+
+    if (ball->getVelocity().getX() != 0) {
+        double t = (plane.getX() - ball->getPosition().getX()) / ball->getVelocity().getX();
+        if (t > 0 && t < tZero && t + elapsedTime < timeLimit) {
+            double x = ball->getPosition().getX() + ball->getVelocity().getX() * t;
+            double y = ball->getPosition().getY();
+            double d = plane.getDistance(Vector3(x, y));
+            ParticleContact * particleContact = BallPlaneColDetect().
+              getParticleContact(ball, plane, d);
+            if (particleContact != NULL) {
+                tZero = t;
+                if (colDetect) delete(colDetect);
+                colDetect = particleContact;
+                colType   = CHAR_PLANE;
+                chara     = character;
+            }
+        }
+    }
 }
 
 void AI::checkColBallPlaneHoriz(Ball * ball, Plane plane){
     double vy  = ball->getVelocity().getY();
     double py  = ball->getPosition().getY();
     double sqr = sqrt(vy * vy + 4 * 4.9 * py);
-    double t1  = (vy + sqr) / 9.8;
-    double t2  = (vy - sqr) / 9.8;
-    double t   = (t1 > t2) ? t1 : t2;
+    double t   = (vy + sqr) / 9.8;
+
+    // double t2  = (vy - sqr) / 9.8;
+    // double t   = (t1 > t2) ? t1 : t2;
 
     if (t > 0 && t < tZero && t + elapsedTime < timeLimit) {
         double x = ball->getPosition().getX() + ball->getVelocity().getX() * t;
@@ -145,15 +186,15 @@ void AI::checkColBallPlaneHoriz(Ball * ball, Plane plane){
         ParticleContact * particleContact = BallPlaneColDetect().
           getParticleContact(ball, plane, d);
         if (particleContact != NULL) {
-            tZero     = t;
+            tZero = t;
+            if (colDetect) delete(colDetect);
             colDetect = particleContact;
+            colType   = BALL_HORIZ;
         }
     }
 }
 
-bool AI::checkColBulletBall(PangScenario * ps, Ball * ball, Character * character, int i){
-    bool ret = false;
-
+void AI::checkColBulletBall(PangScenario * ps, Ball * ball, Character * character, int i){
     if (character->hasBullet()) {
         Bullet * bullet = character->getBullet();
         double t        = (bullet->getPosition().getX() - ball->getPosition().getX()) / ball->getVelocity().getX();
@@ -165,13 +206,16 @@ bool AI::checkColBulletBall(PangScenario * ps, Ball * ball, Character * characte
             ParticleContact * particleContact = BallBallColDetect().
               getParticleContact(bullet, ball, d, normalVector);
             if (particleContact != NULL) {
-                tZero     = t;
+                tZero = t;
+                if (colDetect) delete(colDetect);
                 colDetect = particleContact;
-                ret       = true;
+                colType   = BALL_PROJ;
+                balli     = ball;
+                ballIndex = i;
+                chara     = character;
             }
         }
     }
-    return ret;
 }
 
 void AI::checkColBallBall(PangScenario * ps, Ball * ball, int i){
@@ -181,8 +225,7 @@ void AI::checkColBallBall(PangScenario * ps, Ball * ball, int i){
     }
 }
 
-bool AI::checkColBallBall(Ball * ball1, Ball * ball2){
-    bool ret = false;
+void AI::checkColBallBall(Ball * ball1, Ball * ball2){
     double t = (ball1->getPosition().getX() - ball2->getPosition().getX())
       / (ball2->getVelocity().getX() - ball1->getVelocity().getX());
 
@@ -194,12 +237,34 @@ bool AI::checkColBallBall(Ball * ball1, Ball * ball2){
         ParticleContact * particleContact = BallBallColDetect().
           getParticleContact(ball1, ball2, d, normalVector);
         if (particleContact != NULL) {
-            tZero     = t;
+            tZero = t;
+            if (colDetect) delete(colDetect);
             colDetect = particleContact;
-            ret       = true;
+            colType   = BALL_BALL;
         }
     }
-    return ret;
 }
 
-double AI::getRandomTargetPosition(){ return rand() % Constants::DEFAULT_WIDTH; }
+void AI::checkColCharBall(Character * character, Ball * ball2){
+    Ball * ball1 = character->getMargin();
+    double t     = (ball1->getPosition().getX() - ball2->getPosition().getX())
+      / (ball2->getVelocity().getX() - ball1->getVelocity().getX());
+
+    if (t > 0 && t < tZero && t + elapsedTime < timeLimit) {
+        double y1 = ball1->getPosition().getY();
+        double y2 = ball2->getPosition().getY() + ball2->getVelocity().getY() * t - 4.9 * t * t;
+        double d  = fabs(y1 - y2);
+        Vector3 normalVector = Vector3(0, y1 - y2);
+        ParticleContact * particleContact = BallBallColDetect().
+          getParticleContact(ball1, ball2, d, normalVector);
+        if (particleContact != NULL) {
+            tZero = t;
+            if (colDetect) delete(colDetect);
+            colDetect = particleContact;
+            colType   = BALL_CHAR;
+            chara     = character;
+        }
+    }
+}
+
+double AI::getRandomTargetPosition(){ return rand() / (double) RAND_MAX * Constants::DEFAULT_WIDTH; }

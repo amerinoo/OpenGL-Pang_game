@@ -96,6 +96,10 @@ AI * Game::chooseAgent(StrategyType type, char * name){
             std::cout << "Reflex agent";
             ai = new ReflexAgentAI();
             break;
+        case HEURISTIC_AGENT:
+            std::cout << "Heuristic agent";
+            ai = new HeuristicAI();
+            break;
     }
     std::cout << " chosen for " << name << '\n';
     return ai;

@@ -28,6 +28,9 @@ char * Player::getStrategyTypeName(){
 
         case REFLEX_AGENT:
             return (char *) "Reflex";
+
+        case HEURISTIC_AGENT:
+            return (char *) "Heuristic";
     }
     return (char *) "";
 }

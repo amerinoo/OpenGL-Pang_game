@@ -7,4 +7,5 @@
 #define ais_h
 #include "reflexAgentAI.h"
 #include "nullAI.h"
+#include "heuristicAI.h"
 #endif // ifndef ais_h

@@ -137,7 +137,6 @@ void PangScenario::checkColBulletBall(Ball * ball, Character * character, int i)
             double points = ball->split(balls, ball, particleContactBall);
             balls.erase(balls.begin() + i);
             character->removeBullet();
-            ball = NULL;
             if (balls.size() == 0) {
                 std::cout << "Game ends" << '\n';
                 character->addScore(points + Constants::LAST_BALL_POINTS);

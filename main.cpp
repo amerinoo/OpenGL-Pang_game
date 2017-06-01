@@ -28,8 +28,8 @@ const char * windowTitle = "Pang game - Merino";
 Game game;
 long last_t;
 
-StrategyType Constants::strategyTypePlayer = RANDOM_AGENT;
-StrategyType Constants::strategyTypeEnemy  = REFLEX_AGENT;
+StrategyType Constants::strategyTypePlayer = HEURISTIC_AGENT;
+StrategyType Constants::strategyTypeEnemy  = RANDOM_AGENT;
 char * Constants::player1Name       = (char *) "Link";
 char * Constants::player2Name       = (char *) "Mario";
 char * Constants::background        = (char *) "images/mario_world.png";
@@ -169,6 +169,9 @@ void special(int key, int x, int y){
         case GLUT_KEY_F3:
             game.changePlayerAI(PLAYER_2, REFLEX_AGENT);
             break;
+        case GLUT_KEY_F4:
+            game.changePlayerAI(PLAYER_2, HEURISTIC_AGENT);
+            break;
         case GLUT_KEY_F9:
             game.changePlayerAI(PLAYER_1, HUMAN_AGENT);
             break;
@@ -177,6 +180,9 @@ void special(int key, int x, int y){
             break;
         case GLUT_KEY_F11:
             game.changePlayerAI(PLAYER_1, REFLEX_AGENT);
+            break;
+        case GLUT_KEY_F12:
+            game.changePlayerAI(PLAYER_1, HEURISTIC_AGENT);
             break;
     }
     glutPostRedisplay();
@@ -216,12 +222,13 @@ void usage(char * name){
          << "\nHelp options:" << endl
          << "  -h, --help              Print this help message" << endl
          << "\nAgent options:" << endl
-         << "  -P  --player            Select player strategy (Default Human)" << endl
+         << "  -P  --player            Select player strategy (Default Heuristic)" << endl
          << "  -E  --enemy             Select enemy strategy  (Default Reflex)" << endl
          << "  Options:" << endl
          << "    · human (F9 / F1)" << endl
          << "    · random (F10 / F2)" << endl
          << "    · reflex (F11 / F3)" << endl
+         << "    · heuristic (F12 / F4)" << endl
          << "You can change the strategy dynamically using the F# shortcuts (player / enemy)" << endl
          << "\nAgent name options:" << endl
          << "  -p  --player_name       Change player name (Default Link)" << endl
@@ -249,6 +256,7 @@ void changeStrategyType(StrategyType * strategy, char * optarg){
     if (strcmp("human", optarg) == 0) (*strategy) = HUMAN_AGENT;
     else if (strcmp("random", optarg) == 0) (*strategy) = RANDOM_AGENT;
     else if (strcmp("reflex", optarg) == 0) (*strategy) = REFLEX_AGENT;
+    else if (strcmp("heuristic", optarg) == 0) (*strategy) = HEURISTIC_AGENT;
 }
 
 void changeBackground(char * optarg){
