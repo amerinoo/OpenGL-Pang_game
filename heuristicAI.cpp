@@ -22,6 +22,8 @@ bool HeuristicAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action *
             psCopy->shoot(playerNumber);
             simulateMove(psCopy, Constants::H_AI_TIME_LIMIT);
             double points = heuristic(psCopy, playerNumber);
+            psCopy->balls.clear();
+            psCopy->characters.clear();
             if (points > bestAction) {
                 bestAction = points;
                 (*move)    = action;
@@ -35,6 +37,8 @@ bool HeuristicAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action *
         psCopy->move(playerNumber, action);
         simulateMove(psCopy, Constants::H_AI_TIME_LIMIT);
         double points = heuristic(psCopy, playerNumber);
+        psCopy->balls.clear();
+        psCopy->characters.clear();
         if (points > bestAction) {
             bestAction = points;
             (*move)    = action;

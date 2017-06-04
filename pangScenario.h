@@ -23,6 +23,7 @@ public:
     PangScenario();
     PangScenario(Plane left, Plane right, Plane bottom, int width, int height);
     PangScenario(const PangScenario &ps);
+    PangScenario& operator = (const PangScenario& ps);
     void reset();
     void winner();
     void printScores(float width, float height, int i, char * name, char * strategyType);

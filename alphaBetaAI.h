@@ -17,5 +17,6 @@ public:
     PangScenario * result(PangScenario * ps, Action action, PlayerID playerNumber, bool shoot);
 
     bool hasToShoot;
+    vector<PangScenario*> pss;
 };
 #endif // ifndef alpha_beta_agent_ai_h

@@ -22,6 +22,21 @@ PangScenario::PangScenario(const PangScenario &ps)
     for (unsigned int i = 0; i < ps.characters.size(); i++) characters.push_back(new Character(*ps.characters[i]));
 }
 
+
+
+PangScenario& PangScenario::operator = (const PangScenario& ps){
+     left=ps.left;
+      right=ps.right;
+       bottom=ps.bottom;
+       width=ps.width;
+       height=ps.height;
+       balls.clear();
+       characters.clear();
+    for (unsigned int i = 0; i < ps.balls.size(); i++) balls.push_back(new Ball(*ps.balls[i]));
+    for (unsigned int i = 0; i < ps.characters.size(); i++) characters.push_back(new Character(*ps.characters[i]));
+    return *this;
+}
+
 void PangScenario::reset(){
     balls.clear();
     float wPos      = (rand() % 100) / 100.0;
@@ -66,7 +81,7 @@ void PangScenario::printText(float width, float height, string str){
 
 void PangScenario::resetCharacter(int character){
     characters[character]->setPosition(Vector3(width * fabs(character - 0.75), 0));
-    characters[character]->removeBullet();
+    // characters[character]->removeBullet();
 }
 
 void PangScenario::integrate(double t){
