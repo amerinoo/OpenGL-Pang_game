@@ -15,6 +15,8 @@ public:
     AI();
     virtual bool computeMove(PangScenario * ps, PlayerID playerNumber, Action * move);
     virtual double heuristic(PangScenario * ps, PlayerID playerNumber);
+    Ball * getBallPositionXClosest(PangScenario * ps, Character * character);
+    bool isMoreClose(double mostDangerousBallDistance, double distance);
     void simulateMove(PangScenario * ps, float timeLimit);
     void resolve(PangScenario * ps, float t);
     void checkColBallPlaneVert(Ball * ball, Plane plane);

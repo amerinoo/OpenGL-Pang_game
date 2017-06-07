@@ -55,29 +55,10 @@ Ball * ReflexAgentAI::getMostDangerousBall(PangScenario * ps, Character * charac
     return mostDangerousBall;
 }
 
-Ball * ReflexAgentAI::getBallPositionXClosest(PangScenario * ps, Character * character){
-    Ball * mostCloseBall = NULL;
-    double mostDangerousBallDistance = 9999;
-
-    for (unsigned int i = 0; i < ps->balls.size(); i++) {
-        Ball * ball     = ps->balls[i];
-        double distance = fabs(character->getPosition().getX() - ball->getPosition().getX());
-        if (isMoreClose(mostDangerousBallDistance, distance)) {
-            mostCloseBall = ball;
-            mostDangerousBallDistance = distance;
-        }
-    }
-    return mostCloseBall;
-}
-
 bool ReflexAgentAI::isFalling(Ball * ball){ return ball->getVelocity().getY() < 0; }
 
 bool ReflexAgentAI::isInsideTheSafetyZone(double distance){
     return distance < Constants::SAFETY_DISTANCE;
-}
-
-bool ReflexAgentAI::isMoreClose(double mostDangerousBallDistance, double distance){
-    return mostDangerousBallDistance > distance;
 }
 
 /*

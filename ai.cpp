@@ -23,12 +23,34 @@ bool AI::computeMove(PangScenario * ps, PlayerID playerNumber, Action * move){
 }
 
 double AI::heuristic(PangScenario * ps, PlayerID playerNumber){
-    double points = 0;
+    double points         = 0;
+    Character * character = ps->characters[playerNumber];
+    Ball * ball = getBallPositionXClosest(ps, character);
 
-    points += ps->characters[playerNumber]->getScore();
-    points += 10 * ps->characters[playerNumber]->getLives();
+    if (ball != NULL) points += fabs(character->getPosition().getX() - ball->getPosition().getX());
+    points += character->getScore();
+    points += 10 * character->getLives();
 
     return points;
+}
+
+Ball * AI::getBallPositionXClosest(PangScenario * ps, Character * character){
+    Ball * mostCloseBall = NULL;
+    double mostDangerousBallDistance = 9999;
+
+    for (unsigned int i = 0; i < ps->balls.size(); i++) {
+        Ball * ball     = ps->balls[i];
+        double distance = fabs(character->getPosition().getX() - ball->getPosition().getX());
+        if (isMoreClose(mostDangerousBallDistance, distance)) {
+            mostCloseBall = ball;
+            mostDangerousBallDistance = distance;
+        }
+    }
+    return mostCloseBall;
+}
+
+bool AI::isMoreClose(double mostDangerousBallDistance, double distance){
+    return mostDangerousBallDistance > distance;
 }
 
 void AI::simulateMove(PangScenario * ps, float timeLimit){

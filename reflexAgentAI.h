@@ -12,10 +12,8 @@ public:
     ReflexAgentAI();
     virtual bool computeMove(PangScenario * ps, PlayerID playerNumber, Action * move);
     Ball * getMostDangerousBall(PangScenario * ps, Character * character);
-    Ball * getBallPositionXClosest(PangScenario * ps, Character * character);
     bool isFalling(Ball * ball);
     bool isInsideTheSafetyZone(double distance);
-    bool isMoreClose(double mostDangerousBallDistance, double distance);
     bool haveToShoot(PangScenario * ps, Character * character);
     bool isBallInsideTheCone(Character * character, Ball * ball);
     bool approachingToTheVertical(Character * character, Ball * ball);
