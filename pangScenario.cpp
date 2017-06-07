@@ -22,16 +22,14 @@ PangScenario::PangScenario(const PangScenario &ps)
     for (unsigned int i = 0; i < ps.characters.size(); i++) characters.push_back(new Character(*ps.characters[i]));
 }
 
-
-
 PangScenario& PangScenario::operator = (const PangScenario& ps){
-     left=ps.left;
-      right=ps.right;
-       bottom=ps.bottom;
-       width=ps.width;
-       height=ps.height;
-       balls.clear();
-       characters.clear();
+    left   = ps.left;
+    right  = ps.right;
+    bottom = ps.bottom;
+    width  = ps.width;
+    height = ps.height;
+    balls.clear();
+    characters.clear();
     for (unsigned int i = 0; i < ps.balls.size(); i++) balls.push_back(new Ball(*ps.balls[i]));
     for (unsigned int i = 0; i < ps.characters.size(); i++) characters.push_back(new Character(*ps.characters[i]));
     return *this;

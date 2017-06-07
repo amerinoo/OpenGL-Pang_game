@@ -21,7 +21,7 @@ bool AlphaBetaAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action *
     pss.push_back(psCopy);
     for (int i = 0; i < actions_len; i++) {
         *psCopy = *ps;
-        Action action         = actions[i];
+        Action action = actions[i];
         psCopy->move(playerNumber, action);
         simulateMove(psCopy, Constants::REACTION_TIME);
         double points = AlphaBeta(psCopy, playerNumber, Constants::ALPHA_BETA_DEPTH, -HUGE_VAL, HUGE_VAL, Max, Min);
@@ -31,8 +31,8 @@ bool AlphaBetaAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action *
         }
     }
     for (unsigned int i = 0; i < pss.size(); i++) {
-      pss[i]->balls.clear();
-      pss[i]->characters.clear();
+        pss[i]->balls.clear();
+        pss[i]->characters.clear();
     }
     return hasToShoot;
 }
@@ -41,7 +41,8 @@ double AlphaBetaAI::AlphaBeta(PangScenario * ps, PlayerID playerNumber, int dept
   double alpha, double beta, PlayerID Max, PlayerID Min){
     int actions_len = 2;
     Action actions[actions_len] = { LEFT, RIGHT };
-    PangScenario * psCopy = new PangScenario();
+    PangScenario * psCopy       = new PangScenario();
+
     pss.push_back(psCopy);
     if (depth == 0 || terminal(ps, playerNumber)) {
         return heuristic(ps, playerNumber);
@@ -49,7 +50,7 @@ double AlphaBetaAI::AlphaBeta(PangScenario * ps, PlayerID playerNumber, int dept
         double bestValue = -HUGE_VAL;
         if (!ps->characters[playerNumber]->hasBullet()) {
             for (int i = 0; i < actions_len; i++) {
-              *psCopy = *ps;
+                *psCopy   = *ps;
                 bestValue = max(bestValue, AlphaBeta(result(psCopy, actions[i], playerNumber, true),
                       Min, depth - 1, alpha, beta, Max, Min));
                 if (bestValue >= beta) {
@@ -61,7 +62,7 @@ double AlphaBetaAI::AlphaBeta(PangScenario * ps, PlayerID playerNumber, int dept
             }
         }
         for (int i = 0; i < actions_len; i++) {
-          *psCopy = *ps;
+            *psCopy   = *ps;
             bestValue = max(bestValue, AlphaBeta(result(psCopy, actions[i], playerNumber, false),
                   Min, depth - 1, alpha, beta, Max, Min));
             if (bestValue >= beta) {
@@ -78,7 +79,7 @@ double AlphaBetaAI::AlphaBeta(PangScenario * ps, PlayerID playerNumber, int dept
         double bestValue = HUGE_VAL;
         if (!ps->characters[playerNumber]->hasBullet()) {
             for (int i = 0; i < actions_len; i++) {
-              *psCopy = *ps;
+                *psCopy   = *ps;
                 bestValue = min(bestValue, AlphaBeta(result(psCopy, actions[i], playerNumber, true),
                       Max, depth - 1, alpha, beta, Max, Min));
                 if (bestValue <= alpha) {
@@ -90,7 +91,7 @@ double AlphaBetaAI::AlphaBeta(PangScenario * ps, PlayerID playerNumber, int dept
             }
         }
         for (int i = 0; i < actions_len; i++) {
-          *psCopy = *ps;
+            *psCopy   = *ps;
             bestValue = min(bestValue, AlphaBeta(result(psCopy, actions[i], playerNumber, false),
                   Max, depth - 1, alpha, beta, Max, Min));
             if (bestValue <= alpha) {
@@ -111,7 +112,6 @@ bool AlphaBetaAI::terminal(PangScenario * ps, PlayerID playerNumber){
 }
 
 PangScenario * AlphaBetaAI::result(PangScenario * ps, Action action, PlayerID playerNumber, bool shoot){
-
     ps->move(playerNumber, action);
     if (shoot) ps->shoot(playerNumber);
     simulateMove(ps, Constants::REACTION_TIME);

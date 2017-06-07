@@ -19,8 +19,11 @@ public:
     void integrate(double t);
     void draw();
     void move(Player * player);
+    void move(PlayerID playerId, Action action);
+    void shoot(PlayerID playerId);
     void startGame();
     void pause();
+    void reset();
     void changePlayerAI(PlayerID playerId, StrategyType type);
 
 private:

@@ -134,18 +134,18 @@ void display(){
 void keyboard(unsigned char c, int x, int y){
     c = tolower(c); // Prevent upper case
 
-    if (c == '-') game.getPangScenario()->shoot(PLAYER_1);
-    else if (c == ' ') game.getPangScenario()->shoot(PLAYER_2);
-    else if (c == 'r') game.getPangScenario()->reset();
+    if (c == '-') game.shoot(PLAYER_1);
+    else if (c == ' ') game.shoot(PLAYER_2);
+    else if (c == 'r') game.reset();
     else if (c == 'p') game.pause();
-    else if (c == 'a') game.getPangScenario()->move(PLAYER_2, LEFT);
-    else if (c == 'd') game.getPangScenario()->move(PLAYER_2, RIGHT);
+    else if (c == 'a') game.move(PLAYER_2, LEFT);
+    else if (c == 'd') game.move(PLAYER_2, RIGHT);
 }
 
 void keyboardUp(unsigned char c, int x, int y){
     c = tolower(c); // Prevent upper case
 
-    if (c == 'a' || c == 'd') game.getPangScenario()->move(PLAYER_2, STOP);
+    if (c == 'a' || c == 'd') game.move(PLAYER_2, STOP);
 }
 
 void special(int key, int x, int y){
@@ -155,10 +155,10 @@ void special(int key, int x, int y){
         case GLUT_KEY_DOWN:
             break;
         case GLUT_KEY_LEFT:
-            game.getPangScenario()->move(PLAYER_1, LEFT);
+            game.move(PLAYER_1, LEFT);
             break;
         case GLUT_KEY_RIGHT:
-            game.getPangScenario()->move(PLAYER_1, RIGHT);
+            game.move(PLAYER_1, RIGHT);
             break;
         case GLUT_KEY_F1:
             game.changePlayerAI(PLAYER_2, HUMAN_AGENT);
@@ -202,7 +202,7 @@ void specialUp(int key, int x, int y){
             break;
         case GLUT_KEY_LEFT:
         case GLUT_KEY_RIGHT:
-            game.getPangScenario()->move(PLAYER_1, STOP);
+            game.move(PLAYER_1, STOP);
             break;
     }
     glutPostRedisplay();

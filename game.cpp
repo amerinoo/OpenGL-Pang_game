@@ -46,15 +46,26 @@ void Game::draw(){
 
 void Game::move(Player * player){
     if (player->isAIControlled()) {
-        Action move;
-        if (player->getMovement(pangScenario, &move))
+        Action action;
+        if (player->getMovement(pangScenario, &action))
             pangScenario->shoot(player->getPlayerNumber());
-        pangScenario->move(player->getPlayerNumber(), move);
+        pangScenario->move(player->getPlayerNumber(), action);
     }
 }
 
+void Game::move(PlayerID playerId, Action action){
+    Player * player = (playerId == PLAYER_1) ? player1 : player2;
+
+    if (!player->isAIControlled()) pangScenario->move(playerId, action);
+}
+
+void Game::shoot(PlayerID playerId){
+    Player * player = (playerId == PLAYER_1) ? player1 : player2;
+
+    if (!player->isAIControlled()) pangScenario->shoot(playerId); }
+
 void Game::startGame(){
-    pangScenario->reset();
+    reset();
     playing = true;
 }
 
@@ -68,10 +79,12 @@ void Game::pause(){
     playing = !playing;
 }
 
+void Game::reset(){ pangScenario->reset(); }
+
 void Game::changePlayerAI(PlayerID playerId, StrategyType type){
     if (playerId == PLAYER_1) player1 = createPlayer(playerId, player1->getPlayerName(), type);
     else player2 = createPlayer(playerId, player2->getPlayerName(), type);
-    pangScenario->move(playerId, STOP);
+    move(playerId, STOP);
 }
 
 Player * Game::createPlayer(PlayerID player, char * name, StrategyType type){
