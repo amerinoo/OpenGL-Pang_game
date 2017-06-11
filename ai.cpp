@@ -27,7 +27,9 @@ double AI::heuristic(PangScenario * ps, PlayerID playerNumber){
     Character * character = ps->characters[playerNumber];
     Ball * ball = getBallPositionXClosest(ps, character);
 
-    if (ball != NULL) points += fabs(character->getPosition().getX() - ball->getPosition().getX());
+    if (ball != NULL) {
+        points -= fabs(character->getPosition().getX() - ball->getPosition().getX());
+    }
     points += character->getScore();
     points += 10 * character->getLives();
 
@@ -36,7 +38,7 @@ double AI::heuristic(PangScenario * ps, PlayerID playerNumber){
 
 Ball * AI::getBallPositionXClosest(PangScenario * ps, Character * character){
     Ball * mostCloseBall = NULL;
-    double mostDangerousBallDistance = 9999;
+    double mostDangerousBallDistance = HUGE_VAL;
 
     for (unsigned int i = 0; i < ps->balls.size(); i++) {
         Ball * ball     = ps->balls[i];

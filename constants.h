@@ -51,7 +51,7 @@ public:
 
     static const double EPSILON         = 0.25; // meters
     static const double SAFETY_DISTANCE = 2.5;  // meters
-    static const double CONE_WIDTH      = 0.5;
+    static const double CONE_WIDTH      = 0.8;
     static const float H_AI_TIME_LIMIT  = 1.0;
     static const float REACTION_TIME    = 0.25;
     static const int ALPHA_BETA_DEPTH   = 4;

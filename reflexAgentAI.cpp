@@ -24,8 +24,14 @@ bool ReflexAgentAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action
         /* search the ball whose Position x coordinate is closest
          * to the character position and move
          * towards that ball */
-        ball         = getBallPositionXClosest(ps, character);
-        moveDecision = character->getPosition().getX() - ball->getPosition().getX() < 0;
+        ball = getBallPositionXClosest(ps, character);
+        bool isBallDirectionRight = ball->getVelocity().getX() > 0;
+
+        if (isBallDirectionRight) {
+            moveDecision = character->getPosition().getX() - (ball->getPosition().getX() + ball->getRadius() * 1.7) < 0;
+        } else {
+            moveDecision = character->getPosition().getX() - (ball->getPosition().getX() - ball->getRadius() * 1.7) < 0;
+        }
     }
     (*move) = (moveDecision) ? RIGHT : LEFT;
 
@@ -40,7 +46,7 @@ bool ReflexAgentAI::computeMove(PangScenario * ps, PlayerID playerNumber, Action
  */
 Ball * ReflexAgentAI::getMostDangerousBall(PangScenario * ps, Character * character){
     Ball * mostDangerousBall         = NULL;
-    double mostDangerousBallDistance = 9999;
+    double mostDangerousBallDistance = HUGE_VAL;
 
     for (unsigned int i = 0; i < ps->balls.size(); i++) {
         Ball * ball     = ps->balls[i];
@@ -85,8 +91,14 @@ bool ReflexAgentAI::isBallInsideTheCone(Character * character, Ball * ball){
 }
 
 bool ReflexAgentAI::approachingToTheVertical(Character * character, Ball * ball){
-    bool isOnTheRightOfTheBall = character->getPosition().getX() > ball->getPosition().getX();
-    bool isBallDirectionRight  = ball->getVelocity().getX() > 0;
+    bool isBallDirectionRight = ball->getVelocity().getX() > 0;
+    bool isOnTheRightOfTheBall;
+
+    if (isBallDirectionRight) {
+        isOnTheRightOfTheBall = character->getPosition().getX() > ball->getPosition().getX() + ball->getRadius() * 1.7;
+    } else {
+        isOnTheRightOfTheBall = character->getPosition().getX() > ball->getPosition().getX() - ball->getRadius() * 1.7;
+    }
 
     return (isOnTheRightOfTheBall && isBallDirectionRight) || (!isOnTheRightOfTheBall && !isBallDirectionRight);
 }

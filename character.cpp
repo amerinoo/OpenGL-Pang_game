@@ -46,6 +46,36 @@ int Character::getPlayerNumber(){ return playerNumber; }
 
 void Character::draw(int simulation){
     if (hasLives()) {
+        // Safety zone
+        // int i;
+        // int lineAmount = 100; // # of triangles used to draw circle
+        //
+        // GLfloat radius  = Constants::SAFETY_DISTANCE; // radius
+        // GLfloat twicePi = 2.0f * M_PI;
+        //
+        // glBegin(GL_LINE_LOOP);
+        // for (i = 0; i <= lineAmount; i++) {
+        //     glVertex2f(
+        //       position.getX() + (radius * cos(i * twicePi / lineAmount)),
+        //       position.getY() + (radius * sin(i * twicePi / lineAmount))
+        //     );
+        // }
+        // glEnd();
+
+        // Cone
+        // glPushMatrix();
+        // glBegin(GL_TRIANGLES);
+        // glVertex2f(position.getX(), height / 2.0);
+        // glVertex2f(position.getX() + Constants::CONE_WIDTH, 4);
+        // glVertex2f(position.getX() - Constants::CONE_WIDTH, 4);
+        // glEnd();
+        // glBegin(GL_LINES);
+        // glColor3f(1, 0, 0);
+        // glVertex2f(position.getX(), height / 2.0);
+        // glVertex2f(position.getX(), 4);
+        // glEnd();
+        // glPopMatrix();
+
         double subPos = baseWidth / 2.0;
         if (simulation != -1) {
             glPushMatrix();
@@ -101,7 +131,10 @@ void Character::moveLeft(double speed){
 }
 
 void Character::shoot(double time){
-    if (!hasBullet() && hasLives()) bullet = new Bullet(position + Vector3(0, height), Vector3(0, 4), color, time);
+    if (!hasBullet() && hasLives()) {
+        bullet = new Bullet(position + Vector3(0, height), Vector3(0, 4), color, time);
+        score -= 10;
+    }
 }
 
 bool Character::hasBullet() const { return bullet != NULL; }
